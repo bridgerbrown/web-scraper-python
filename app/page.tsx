@@ -1,46 +1,124 @@
 import Navbar from "@/components/Navbar"
 
 export default function Home() {
-  const titleCSS: string = `text-2xl mb-6`;
-  const selectDivCSS: string = `mt-16 flex flex-col justify-center items-center`;
-  const presetCSS: string = `ml-2 mr-4`;
+  const titleCSS: string = `text-lg font-semibold ml-3`;
+  const stepCSS: string = `mb-5 flex justify-center items-center`;
+  const stepCircleCSS: string = `w-8 h-8 rounded-full text-white bg-blue-500 flex justify-center items-center`;
+  const stepNumberCSS: string = `font-semibold absolute`;
+  const selectDivCSS: string = `mb-16 flex flex-col justify-center items-center`;
+  const presetButtonCSS: string = `px-5 py-2 text-sm bg-slate-300 hover:bg-slate-400/60 transition-colors rounded-sm mx-2`;
+  const labelCSS: string = `ml-2 mr-6 cursor-pointer`;
 
   return (
     <main>
       <Navbar />
-      <section className="mt-4 justify-center items-center flex flex-col">
+      <section className="mt-16 justify-center items-center flex flex-col">
+        <h1 className="text-xl mb-10">
+          Choose a website to retrieve some HTML elements!
+        </h1>
         <div className={selectDivCSS}>
-          <h2 className={titleCSS}>
-            Enter a website to scrape
-          </h2>
+          <span className={stepCSS}>
+            <div className={stepCircleCSS}>
+              <h2 className={stepNumberCSS}>
+                1
+              </h2>
+            </div>
+            <h2 className={titleCSS}>
+              Enter a website
+            </h2>
+          </span>
           <input 
             type="text"
-            className="w-96 h-8 border-black border-2 rounded-sm"
+            className="w-[600px] pl-2 h-8 border-slate-600 border rounded-md"
           />
           <div className="mt-6 flex flex-col justify-center items-center">
-            <p className="text-lg">
-              Or try one of these:
+            <p className="">
+              Or try one of these examples:
             </p>
-            <div className="mt-6">
-              <button className={presetCSS}>
+            <div className="mt-4">
+              <button className={presetButtonCSS}>
                 Amazon.com
               </button>
-              <button className={presetCSS}>
-                OpenAi.com
+              <button className={presetButtonCSS}>
+                OpenAI.com
               </button>
-              <button className={presetCSS}>
+              <button className={presetButtonCSS}>
                 NASA.gov 
               </button>
             </div> 
           </div>
         </div>
         <div className={selectDivCSS}>
-          <h2 className={titleCSS}>
-            Select which elements to get
-          </h2>
+          <span className={stepCSS}>
+            <div className={stepCircleCSS}>
+              <h2 className={stepNumberCSS}>
+                2
+              </h2>
+            </div>
+            <h2 className={titleCSS}>
+              Select which elements to retrieve
+            </h2>
+          </span>
+          <div className="mt-2 mb-0">
+            <form 
+              id="elements"
+              className=""
+            >
+              <input 
+                type="checkbox" 
+                id="heading" 
+                value="heading" 
+                name="elements" 
+              />
+              <label 
+                htmlFor="heading"
+                className={labelCSS}
+              >
+                Heading
+              </label>
+              <input 
+                type="checkbox" 
+                id="paragraph" 
+                value="paragraph" 
+                name="elements" 
+              />
+              <label 
+                htmlFor="paragraph"
+                className={labelCSS}
+              >
+                Paragraph text
+              </label>
+              <input 
+                type="checkbox" 
+                id="links" 
+                value="links" 
+                name="elements" 
+              />
+              <label 
+                htmlFor="links"
+                className={labelCSS}
+              >
+                Links  
+              </label>
+              <input 
+                type="checkbox" 
+                id="images" 
+                value="images" 
+                name="elements" 
+              />
+              <label 
+                htmlFor="images"
+                className={labelCSS}
+              >
+                Images 
+              </label>
+            </form>
+          </div>
         </div>
         <div>
-          <button>Submit</button>
+          <button className="px-6 py-2 text-white bg-blue-500 rounded-full hover:bg-blue-600 drop-shadow-none hover:drop-shadow-lg transition-all">
+            Submit
+          </button>
         </div>
       </section>
     </main>

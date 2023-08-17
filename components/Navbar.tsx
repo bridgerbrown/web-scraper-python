@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 function Navbar() {
-  const linkCSS: string = `px-2 mx-6`;
+  const linkCSS: string = `px-2 mx-8`;
 
   return (
     <nav className="">
@@ -10,7 +10,7 @@ function Navbar() {
           Web Scraper
         </h1>
       </div>
-      <div className="h-16 bg-blue-100 flex justify-center items-center w-screen">
+      <div className="h-16 border-y border-slate-300 flex justify-center items-center w-screen">
         <Link href={"/"} 
           className={linkCSS}
         >
@@ -19,7 +19,7 @@ function Navbar() {
         <Link href={"/how"}
           className={linkCSS}
         >
-          How does this work? 
+          What is web scraping?
         </Link>
         <Link href={"/about"}
           className={linkCSS}
