@@ -1,6 +1,7 @@
 "use client"
 import Navbar from "@/components/Navbar"
 import React, {useState, ChangeEvent, FormEvent} from "react";
+import axios from "axios";
 
 export default function Home() {
   const titleCSS: string = `text-lg font-semibold ml-3`;
@@ -14,6 +15,8 @@ export default function Home() {
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
   const [urlError, setUrlError] = useState<boolean>(false);
   const [elementsError, setElementsError] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>("");
+  const [scrapedData, setScrapedData] = useState<any>();
 
   const handleUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newUrl = event.target.value;
@@ -37,7 +40,21 @@ export default function Home() {
     event.preventDefault();
     if (!url) setUrlError(true);
     if (!selectedElements.length) setElementsError(true);
+    if (!url || !selectedElements.length) return;
+    handleScraper();
   }
+
+  const handleScraper = async () => {
+    try {
+      const res = await axios.post('http://127.0.0.1:5000/scrape');
+      setStatus(res.data.message);
+      setScrapedData(res.data.data);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 
   return (
     <main>
