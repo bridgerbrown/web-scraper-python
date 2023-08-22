@@ -6,27 +6,36 @@ from selenium import webdriver
 
 app = Flask(__name__)
 CORS(app)
-@app.route('/scrape', methods=['POST'])
 
+@app.route('/scrape', methods=['POST'])
 def scrape():
     try:
         driver = webdriver.Chrome()
         driver.get('http://localhost:3000/')
 
-        results = []
-        other_results = []
+        element_types = request.json.get('element_types', [])
+
+        scraped_elements = []
 
         content = driver.page_source
         soup = BeautifulSoup(content, 'html.parser')
 
-        for p_element in soup.findAll('p'):
-            p_text = p_element.get_text()
-            if p_text not in other_results:
-                other_results.append(p_text)
+        for element_type in element_types:
+            if element_type == 'headings':
+                for heading in soup.findAll(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']):
+                    scraped_elements.append(heading.get_text())
+            elif element_type == 'paragraphs':
+                for p in soup.findAll('p'):
+                    scraped_elements.append(p.get_text())
+            elif element_type == 'links':
+                for link in soup.findAll('a'):
+                    scraped_elements.append(a.get_text())
+            elif element_type == 'images':
+                for image in soup.findAll('img'):
+                    scraped_elements.append(img.get_text())
 
-        series1 = pd.Series(results, name='Names')
-        series2 = pd.Series(other_results, name='Categories')
-        df = pd.DataFrame({'Names': series1, 'Categories': series2})
+        series = pd.Series(scraped_elements, name='scraped_elements')
+        df = pd.DataFrame({'scraped_elements': series})
         scraped_data = df.to_dict(orient='records')
 
         return jsonify({'message': 'Scraping successful', 'data': scraped_data})

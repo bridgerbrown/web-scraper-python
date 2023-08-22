@@ -45,9 +45,20 @@ export default function Home() {
     await handleScraper();
   }
 
+  const handleRedo = async (event: FormEvent) => {
+    event.preventDefault();
+    setSubmitted(false);
+    setScrapedData([]);
+    setUrl("");
+    setSelectedElements([]);
+  }
+
   const handleScraper = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:5000/scrape');
+      const requestData = {
+        element_types: selectedElements
+      };
+      const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
       setStatus(res.data.message);
       setScrapedData(JSON.stringify(res.data));
       setSubmitted(true);
@@ -70,17 +81,26 @@ export default function Home() {
           ?
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-xl mb-12">
-                Results:
+                Results
             </h1>
-            {
+            <div className="mb-12">
+              {
               scrapedData ? 
                 <p>
                 {scrapedData}
                 </p>
                 :
                 <p></p>
-              
-            }
+              }
+            </div>
+            <div className="w-full flex items-center justify-center">
+              <button 
+                onClick={handleRedo}
+                className="px-6 py-2 text-white bg-blue-500 rounded-full hover:bg-blue-600 drop-shadow-none hover:drop-shadow-lg transition-all"
+              >
+                Try Again
+              </button>
+            </div>
           </div>
           :
           <div className="flex flex-col justify-center items-center">
@@ -157,26 +177,26 @@ export default function Home() {
                 >
                   <input 
                     type="checkbox" 
-                    id="heading" 
-                    value="heading" 
+                    id="headings" 
+                    value="headings" 
                     name="elements"
                     onChange={handleCheckboxChange}
                   />
                   <label 
-                    htmlFor="heading"
+                    htmlFor="headings"
                     className={labelCSS}
                   >
                     Heading
                   </label>
                   <input 
                     type="checkbox" 
-                    id="paragraph" 
-                    value="paragraph" 
+                    id="paragraphs" 
+                    value="paragraphs" 
                     name="elements" 
                     onChange={handleCheckboxChange}
                   />
                   <label 
-                    htmlFor="paragraph"
+                    htmlFor="paragraphs"
                     className={labelCSS}
                   >
                     Paragraph text
