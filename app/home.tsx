@@ -1,6 +1,6 @@
 "use client"
 import Navbar from "@/components/Navbar"
-import React, {useState, ChangeEvent, FormEvent} from "react";
+import React, {useState, ChangeEvent, FormEvent, useEffect} from "react";
 import axios from "axios";
 
 export default function Home() {
@@ -37,25 +37,29 @@ export default function Home() {
     }
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (!url) setUrlError(true);
     if (!selectedElements.length) setElementsError(true);
     if (!url || !selectedElements.length) return;
-    handleScraper();
+    await handleScraper();
   }
 
   const handleScraper = async () => {
     try {
       const res = await axios.post('http://127.0.0.1:5000/scrape');
       setStatus(res.data.message);
-      setScrapedData(res.data.data);
-      console.log(res);
+      setScrapedData(JSON.stringify(res.data));
+      setSubmitted(true);
+      console.log(JSON.stringify(res.data));
     } catch (error) {
       console.log(error);
     }
   }
 
+  useEffect(() => {
+  
+  }, [scrapedData])
 
   return (
     <main>
@@ -64,9 +68,22 @@ export default function Home() {
         {
           submitted
           ?
-          <div></div>
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="text-xl mb-12">
+                Results:
+            </h1>
+            {
+              scrapedData ? 
+                <p>
+                {scrapedData}
+                </p>
+                :
+                <p></p>
+              
+            }
+          </div>
           :
-          <div>
+          <div className="flex flex-col justify-center items-center">
             <h1 className="text-xl mb-12">
               Choose a website to retrieve some HTML elements!
             </h1>
@@ -201,7 +218,7 @@ export default function Home() {
                 }
               </div>
             </div>
-            <div>
+            <div className="w-full flex items-center justify-center">
               <button 
                 onClick={handleSubmit}
                 className="px-6 py-2 text-white bg-blue-500 rounded-full hover:bg-blue-600 drop-shadow-none hover:drop-shadow-lg transition-all"
