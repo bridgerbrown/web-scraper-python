@@ -33,10 +33,10 @@ def scrape():
                     p_elements.append(p.get_text())
             elif element_type == 'link':
                 for link in soup.findAll('a'):
-                    link_elements.append(a.get_text())
+                    link_elements.append(link.get_text())
             elif element_type == 'image':
                 for image in soup.findAll('img'):
-                    image_elements.append(img.get_text())
+                    image_elements.append(image.get_text())
 
         series = pd.Series(scraped_elements, name='scraped_elements')
         df = pd.DataFrame({'scraped_elements': series})

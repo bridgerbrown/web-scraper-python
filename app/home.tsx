@@ -11,6 +11,9 @@ export default function Home() {
   const stepNumberCSS: string = `font-semibold absolute`;
   const presetButtonCSS: string = `px-5 py-2 text-sm bg-slate-300 hover:bg-slate-400/60 transition-colors rounded-sm mx-2`;
   const labelCSS: string = `ml-2 mr-6 cursor-pointer`;
+  const dataSectionCSS: string = `mb-12`;
+  const dataHeadingCSS: string = `mb-4 text-lg font-semibold`;
+  const dataResultsCSS: string = `flex flex-col space-y-2 justify-center items-start`;
 
   const [url, setUrl] = useState<string>("");
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
@@ -67,11 +70,11 @@ export default function Home() {
       const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
       setStatus(res.data.message);
       setScrapedData(res.data.data);
-      const heading_data = [...res.data.data[0].map((item: any) => item)];
-      const paragraph_data = [...res.data.data[1].map((item: any) => item)];
-      const link_data = [...res.data.data[2].map((item: any) => item)];
-      const image_data = [...res.data.data[3].map((item: any) => item)];
-      console.log(heading_data)
+      const heading_data = res.data.data[0].length ? [...res.data.data[0].map((item: any) => item)] : [];
+      const paragraph_data = res.data.data[1].length ? [...res.data.data[1].map((item: any) => item)] : [];
+      const link_data = res.data.data[2].length ? [...res.data.data[2].map((item: any) => item)] : [];
+      const image_data = res.data.data[3].length ? [...res.data.data[3].map((item: any) => item)] : [];
+      console.log(res.data.data)
       setHeadingData(heading_data);
       setParagraphData(paragraph_data);
       setLinkData(link_data);
@@ -94,21 +97,60 @@ export default function Home() {
           submitted
           ?
           <div className="flex flex-col justify-center items-center">
-            <h1 className="text-xl mb-12">
+            <h1 className="text-2xl mb-12">
                 Results
             </h1>
-            <section className="w-full text-center flex justify-center items-center mb-12">
+            <section className="w-full text-center flex justify-center items-center mb-4">
               {
                 scrapedData ? 
                   <div>
                   {
                     headingData.length ?
-                    <div>
-                      <h1 className="mb-4 text-2xl font-semibold">
+                    <div className={dataSectionCSS}>
+                      <h1 className={dataHeadingCSS}>
                       Heading Data
                       </h1>
-                      <div className="flex flex-col space-y-2 justify-center items-start">
+                      <div className={dataResultsCSS}>
                         { headingData.map((item) => <DataItem item={item} index={headingData.indexOf(item) + 1} key={item} /> )}
+                      </div>
+                    </div>
+                    :
+                    <div></div>
+                  }
+                  {
+                    paragraphData.length ?
+                    <div className={dataSectionCSS}>
+                      <h1 className={dataHeadingCSS}>
+                      Paragraph Data
+                      </h1>
+                      <div className={dataResultsCSS}>
+                        { paragraphData.map((item) => <DataItem item={item} index={paragraphData.indexOf(item) + 1} key={item} /> )}
+                      </div>
+                    </div>
+                    :
+                    <div></div>
+                  }
+                  {
+                    linkData.length ?
+                    <div className={dataSectionCSS}>
+                      <h1 className={dataHeadingCSS}>
+                      Link Data
+                      </h1>
+                      <div className={dataResultsCSS}>
+                        { linkData.map((item) => <DataItem item={item} index={linkData.indexOf(item) + 1} key={item} /> )}
+                      </div>
+                    </div>
+                    :
+                    <div></div>
+                  }
+                  {
+                    imageData.length ?
+                    <div className={dataSectionCSS}>
+                      <h1 className={dataHeadingCSS}>
+                      Image Data
+                      </h1>
+                      <div className={dataResultsCSS}>
+                        { imageData.map((item) => <DataItem item={item} index={imageData.indexOf(item) + 1} key={item} /> )}
                       </div>
                     </div>
                     :
