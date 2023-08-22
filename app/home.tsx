@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar"
 import React, {useState, ChangeEvent, FormEvent, useEffect} from "react";
 import axios from "axios";
+import DataItem from "@/components/DataItem";
 
 export default function Home() {
   const titleCSS: string = `text-lg font-semibold ml-3`;
@@ -18,6 +19,11 @@ export default function Home() {
   const [status, setStatus] = useState<string>("");
   const [scrapedData, setScrapedData] = useState<any>();
   const [submitted, setSubmitted] = useState<boolean>(false);
+
+  const [headingData, setHeadingData] = useState<any[]>([]);
+  const [paragraphData, setParagraphData] = useState<any[]>([]);
+  const [linkData, setLinkData] = useState<any[]>([]);
+  const [imageData, setImageData] = useState<any[]>([]);
 
   const handleUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newUrl = event.target.value;
@@ -60,9 +66,17 @@ export default function Home() {
       };
       const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
       setStatus(res.data.message);
-      setScrapedData(JSON.stringify(res.data));
+      setScrapedData(res.data.data);
+      const heading_data = [...res.data.data[0].map((item: any) => item)];
+      const paragraph_data = [...res.data.data[1].map((item: any) => item)];
+      const link_data = [...res.data.data[2].map((item: any) => item)];
+      const image_data = [...res.data.data[3].map((item: any) => item)];
+      console.log(heading_data)
+      setHeadingData(heading_data);
+      setParagraphData(paragraph_data);
+      setLinkData(link_data);
+      setImageData(image_data);
       setSubmitted(true);
-      console.log(JSON.stringify(res.data));
     } catch (error) {
       console.log(error);
     }
@@ -83,16 +97,28 @@ export default function Home() {
             <h1 className="text-xl mb-12">
                 Results
             </h1>
-            <div className="mb-12">
+            <section className="w-full text-center flex justify-center items-center mb-12">
               {
-              scrapedData ? 
-                <p>
-                {scrapedData}
-                </p>
-                :
-                <p></p>
+                scrapedData ? 
+                  <div>
+                  {
+                    headingData.length ?
+                    <div>
+                      <h1 className="mb-4 text-2xl font-semibold">
+                      Heading Data
+                      </h1>
+                      <div className="flex flex-col space-y-2 justify-center items-start">
+                        { headingData.map((item) => <DataItem item={item} index={headingData.indexOf(item) + 1} key={item} /> )}
+                      </div>
+                    </div>
+                    :
+                    <div></div>
+                  }
+                  </div>
+                  :
+                  <p></p>
               }
-            </div>
+            </section>
             <div className="w-full flex items-center justify-center">
               <button 
                 onClick={handleRedo}
@@ -177,8 +203,8 @@ export default function Home() {
                 >
                   <input 
                     type="checkbox" 
-                    id="headings" 
-                    value="headings" 
+                    id="heading" 
+                    value="heading" 
                     name="elements"
                     onChange={handleCheckboxChange}
                   />
@@ -190,39 +216,39 @@ export default function Home() {
                   </label>
                   <input 
                     type="checkbox" 
-                    id="paragraphs" 
-                    value="paragraphs" 
+                    id="paragraph" 
+                    value="paragraph" 
                     name="elements" 
                     onChange={handleCheckboxChange}
                   />
                   <label 
-                    htmlFor="paragraphs"
+                    htmlFor="paragraph"
                     className={labelCSS}
                   >
                     Paragraph text
                   </label>
                   <input 
                     type="checkbox" 
-                    id="links" 
-                    value="links" 
+                    id="link" 
+                    value="link" 
                     name="elements" 
                     onChange={handleCheckboxChange}
                   />
                   <label 
-                    htmlFor="links"
+                    htmlFor="link"
                     className={labelCSS}
                   >
                     Links  
                   </label>
                   <input 
                     type="checkbox" 
-                    id="images" 
-                    value="images" 
+                    id="image" 
+                    value="image" 
                     name="elements" 
                     onChange={handleCheckboxChange}
                   />
                   <label 
-                    htmlFor="images"
+                    htmlFor="image"
                     className={labelCSS}
                   >
                     Images 

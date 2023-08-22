@@ -15,30 +15,37 @@ def scrape():
 
         element_types = request.json.get('element_types', [])
 
-        scraped_elements = []
+        heading_elements = []
+        p_elements = []
+        link_elements = []
+        image_elements = []
+        scraped_elements = [heading_elements, p_elements, link_elements, image_elements]
 
         content = driver.page_source
         soup = BeautifulSoup(content, 'html.parser')
 
         for element_type in element_types:
-            if element_type == 'headings':
+            if element_type == 'heading':
                 for heading in soup.findAll(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']):
-                    scraped_elements.append(heading.get_text())
-            elif element_type == 'paragraphs':
+                    heading_elements.append(heading.get_text())
+            elif element_type == 'paragraph':
                 for p in soup.findAll('p'):
-                    scraped_elements.append(p.get_text())
-            elif element_type == 'links':
+                    p_elements.append(p.get_text())
+            elif element_type == 'link':
                 for link in soup.findAll('a'):
-                    scraped_elements.append(a.get_text())
-            elif element_type == 'images':
+                    link_elements.append(a.get_text())
+            elif element_type == 'image':
                 for image in soup.findAll('img'):
-                    scraped_elements.append(img.get_text())
+                    image_elements.append(img.get_text())
 
         series = pd.Series(scraped_elements, name='scraped_elements')
         df = pd.DataFrame({'scraped_elements': series})
         scraped_data = df.to_dict(orient='records')
 
-        return jsonify({'message': 'Scraping successful', 'data': scraped_data})
+        return jsonify({
+            'message': 'Scraping successful',
+            'data': scraped_elements
+        })
     except Exception as e:
         return jsonify({'error': str(e)})
 
