@@ -60,6 +60,7 @@ export default function Home() {
     setSelectedElements([]);
     setUrlError(false);
     setElementsError(false);
+    setStatus("");
   }
 
   const handleScraper = async () => {
@@ -68,7 +69,7 @@ export default function Home() {
         element_types: selectedElements
       };
       const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
-      setStatus(res.data.message);
+      setStatus(res.data.error ? res.data.error : res.data.message);
       setScrapedData(res.data.data);
       const heading_data = res.data.data[0].length ? [...res.data.data[0].map((item: any) => item)] : [];
       const paragraph_data = res.data.data[1].length ? [...res.data.data[1].map((item: any) => item)] : [];
@@ -97,7 +98,16 @@ export default function Home() {
           submitted
           ?
           <div className="flex flex-col justify-center items-center">
-            <h1 className="text-2xl mb-12">
+            {status === "Scraping successful" ? 
+              <h1 className="text-xl text-green-500">
+              Scraping successful!
+              </h1>
+              :
+              <h1 className="text-2xl text-red-500">
+              Scraping error: {status}
+              </h1>
+            }
+            <h1 className="text-2xl font-semibold mt-4 mb-4">
               Results
             </h1>
             <section className="w-full text-center flex justify-center items-center mb-4">
@@ -118,7 +128,7 @@ export default function Home() {
                 onClick={handleRedo}
                 className="px-6 py-2 text-white bg-blue-500 rounded-full hover:bg-blue-600 drop-shadow-none hover:drop-shadow-lg transition-all"
               >
-                Try Again
+                Restart
               </button>
             </div>
           </div>
