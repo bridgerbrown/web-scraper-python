@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar"
 import React, {useState, ChangeEvent, FormEvent, useEffect} from "react";
 import axios from "axios";
 import DataItem from "@/components/DataItem";
+import ResultsList from "@/components/ResultsList";
 
 export default function Home() {
   const titleCSS: string = `text-lg font-semibold ml-3`;
@@ -11,9 +12,6 @@ export default function Home() {
   const stepNumberCSS: string = `font-semibold absolute`;
   const presetButtonCSS: string = `px-5 py-2 text-sm bg-slate-300 hover:bg-slate-400/60 transition-colors rounded-sm mx-2`;
   const labelCSS: string = `ml-2 mr-6 cursor-pointer`;
-  const dataSectionCSS: string = `mb-12`;
-  const dataHeadingCSS: string = `mb-4 text-lg font-semibold`;
-  const dataResultsCSS: string = `flex flex-col space-y-2 justify-center items-start`;
 
   const [url, setUrl] = useState<string>("");
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
@@ -60,6 +58,8 @@ export default function Home() {
     setScrapedData([]);
     setUrl("");
     setSelectedElements([]);
+    setUrlError(false);
+    setElementsError(false);
   }
 
   const handleScraper = async () => {
@@ -98,64 +98,16 @@ export default function Home() {
           ?
           <div className="flex flex-col justify-center items-center">
             <h1 className="text-2xl mb-12">
-                Results
+              Results
             </h1>
             <section className="w-full text-center flex justify-center items-center mb-4">
               {
                 scrapedData ? 
                   <div>
-                  {
-                    headingData.length ?
-                    <div className={dataSectionCSS}>
-                      <h1 className={dataHeadingCSS}>
-                      Heading Data
-                      </h1>
-                      <div className={dataResultsCSS}>
-                        { headingData.map((item) => <DataItem item={item} index={headingData.indexOf(item) + 1} key={item} /> )}
-                      </div>
-                    </div>
-                    :
-                    <div></div>
-                  }
-                  {
-                    paragraphData.length ?
-                    <div className={dataSectionCSS}>
-                      <h1 className={dataHeadingCSS}>
-                      Paragraph Data
-                      </h1>
-                      <div className={dataResultsCSS}>
-                        { paragraphData.map((item) => <DataItem item={item} index={paragraphData.indexOf(item) + 1} key={item} /> )}
-                      </div>
-                    </div>
-                    :
-                    <div></div>
-                  }
-                  {
-                    linkData.length ?
-                    <div className={dataSectionCSS}>
-                      <h1 className={dataHeadingCSS}>
-                      Link Data
-                      </h1>
-                      <div className={dataResultsCSS}>
-                        { linkData.map((item) => <DataItem item={item} index={linkData.indexOf(item) + 1} key={item} /> )}
-                      </div>
-                    </div>
-                    :
-                    <div></div>
-                  }
-                  {
-                    imageData.length ?
-                    <div className={dataSectionCSS}>
-                      <h1 className={dataHeadingCSS}>
-                      Image Data
-                      </h1>
-                      <div className={dataResultsCSS}>
-                        { imageData.map((item) => <DataItem item={item} index={imageData.indexOf(item) + 1} key={item} /> )}
-                      </div>
-                    </div>
-                    :
-                    <div></div>
-                  }
+                    { selectedElements.includes("heading") ? <ResultsList data={headingData} type={"Heading"} /> : <div></div>}
+                    { selectedElements.includes("paragraph") ? <ResultsList data={paragraphData} type={"Paragraph"} /> : <div></div>}
+                    { selectedElements.includes("link") ? <ResultsList data={linkData} type={"Link"} /> : <div></div>}
+                    { selectedElements.includes("image") ? <ResultsList data={imageData} type={"Image"} /> : <div></div>}
                   </div>
                   :
                   <p></p>

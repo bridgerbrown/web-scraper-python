@@ -5,7 +5,7 @@ export default function DataItem(props: any) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <div className="mr-4 w-7 h-7 rounded-full text-white bg-blue-500 flex justify-center items-center">
+        <div className="mr-4 w-7 h-7 rounded-full bg-slate-300 flex justify-center items-center">
           <h2 className="absolute text-base">
           {index}
           </h2>
