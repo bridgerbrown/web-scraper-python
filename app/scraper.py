@@ -18,25 +18,29 @@ def scrape():
         heading_elements = []
         p_elements = []
         link_elements = []
-        image_elements = []
-        scraped_elements = [heading_elements, p_elements, link_elements, image_elements]
+        meta_elements = []
+        scraped_elements = [heading_elements, p_elements, link_elements, meta_elements]
 
         content = driver.page_source
         soup = BeautifulSoup(content, 'html.parser')
 
         for element_type in element_types:
             if element_type == 'heading':
-                for heading in soup.findAll(['h1', 'h2', 'h3', 'h4', 'h5', 'h6']):
-                    heading_elements.append(heading.get_text())
+                for level in range(1, 7):
+                    for heading in soup.findAll(f'h{level}'):
+                        heading_elements.append([
+                            f'h{level}',
+                            heading.get_text()
+                        ])
             elif element_type == 'paragraph':
                 for p in soup.findAll('p'):
                     p_elements.append(p.get_text())
             elif element_type == 'link':
                 for link in soup.findAll('a'):
-                    link_elements.append(link.get_text())
-            elif element_type == 'image':
-                for image in soup.findAll('img'):
-                    image_elements.append(image.get_text())
+                    link_elements.append([link.get_text(), link['href']])
+            elif element_type == 'meta':
+                for meta in soup.head.findAll('meta'):
+                    meta_elements.append(meta.attrs)
 
         series = pd.Series(scraped_elements, name='scraped_elements')
         df = pd.DataFrame({'scraped_elements': series})

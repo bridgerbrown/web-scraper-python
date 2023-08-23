@@ -27,7 +27,7 @@ export default function ResultsList(props: any) {
           {
             data.length ?
               <div className={dataResultsCSS}>
-                { data.map((item: any) => <DataItem item={item} index={data.indexOf(item) + 1} key={item} /> )}
+                { data.map((item: any) => <DataItem item={item} index={data.indexOf(item) + 1} key={item} type={type} /> )}
               </div>
             :
               <div className="mt-8 font-light text-gray-500 text-center">

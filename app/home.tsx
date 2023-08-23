@@ -24,7 +24,7 @@ export default function Home() {
   const [headingData, setHeadingData] = useState<any[]>([]);
   const [paragraphData, setParagraphData] = useState<any[]>([]);
   const [linkData, setLinkData] = useState<any[]>([]);
-  const [imageData, setImageData] = useState<any[]>([]);
+  const [metaData, setMetaData] = useState<any[]>([]);
 
   const handleUrlChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newUrl = event.target.value;
@@ -71,15 +71,15 @@ export default function Home() {
       const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
       setStatus(res.data.error ? res.data.error : res.data.message);
       setScrapedData(res.data.data);
-      const heading_data = res.data.data[0].length ? [...res.data.data[0].map((item: any) => item)] : [];
+      const heading_data = res.data.data[0].length ? [...res.data.data[0].map((item: any) => [item[0], item[1]])] : [];
       const paragraph_data = res.data.data[1].length ? [...res.data.data[1].map((item: any) => item)] : [];
-      const link_data = res.data.data[2].length ? [...res.data.data[2].map((item: any) => item)] : [];
-      const image_data = res.data.data[3].length ? [...res.data.data[3].map((item: any) => item)] : [];
+      const link_data = res.data.data[2].length ? [...res.data.data[2].map((item: any) => [item[0], item[1]])] : [];
+      const meta_data = res.data.data[3].length ? [...res.data.data[3].map((item: any) => JSON.stringify(item))] : [];
       console.log(res.data.data)
       setHeadingData(heading_data);
       setParagraphData(paragraph_data);
       setLinkData(link_data);
-      setImageData(image_data);
+      setMetaData(meta_data);
       setSubmitted(true);
     } catch (error) {
       console.log(error);
@@ -117,7 +117,7 @@ export default function Home() {
                     { selectedElements.includes("heading") ? <ResultsList data={headingData} type={"Heading"} /> : <div></div>}
                     { selectedElements.includes("paragraph") ? <ResultsList data={paragraphData} type={"Paragraph"} /> : <div></div>}
                     { selectedElements.includes("link") ? <ResultsList data={linkData} type={"Link"} /> : <div></div>}
-                    { selectedElements.includes("image") ? <ResultsList data={imageData} type={"Image"} /> : <div></div>}
+                    { selectedElements.includes("meta") ? <ResultsList data={metaData} type={"Meta"} /> : <div></div>}
                   </div>
                   :
                   <p></p>
@@ -246,16 +246,16 @@ export default function Home() {
                   </label>
                   <input 
                     type="checkbox" 
-                    id="image" 
-                    value="image" 
+                    id="meta" 
+                    value="meta" 
                     name="elements" 
                     onChange={handleCheckboxChange}
                   />
                   <label 
-                    htmlFor="image"
+                    htmlFor="meta"
                     className={labelCSS}
                   >
-                    Images 
+                    Meta data 
                   </label>
                 </form>
                 {
