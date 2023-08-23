@@ -2,8 +2,8 @@ import DataItem from "./DataItem";
 
 export default function ResultsList(props: any) {
   const { data, type } = props;
-  const dataSectionCSS: string = `mb-12`;
-  const dataHeadingCSS: string = `mb-1 text-lg font-semibold`;
+  const dataSectionCSS: string = `max-w-xl mb-12`;
+  const dataHeadingCSS: string = `mb-1 text-lg`;
   const dataResultsCSS: string = `flex flex-col space-y-6 justify-center items-start`;
 
   return (
@@ -16,11 +16,11 @@ export default function ResultsList(props: any) {
           </h1>
           {
             data.length ?
-            <p className="mb-6 text-sm">
+            <p className="mb-6 text-sm text-gray-500">
             {data.length > 1 ? data.length + " items" : "1 item"} found
             </p>
             :
-            <p className="text-sm">
+            <p className="text-sm mb-6 text-gray-500">
             0 items found
             </p>
           }

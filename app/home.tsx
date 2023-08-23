@@ -6,7 +6,7 @@ import DataItem from "@/components/DataItem";
 import ResultsList from "@/components/ResultsList";
 
 export default function Home() {
-  const titleCSS: string = `text-lg font-semibold ml-3`;
+  const titleCSS: string = `text-xl font-semibold ml-3`;
   const stepCSS: string = `mb-5 flex justify-center items-center`;
   const stepCircleCSS: string = `w-8 h-8 rounded-full text-white bg-blue-500 flex justify-center items-center`;
   const stepNumberCSS: string = `font-semibold absolute`;
@@ -50,6 +50,7 @@ export default function Home() {
     if (!selectedElements.length) setElementsError(true);
     if (!url || !selectedElements.length) return;
     await handleScraper();
+    setTimeout(() => console.log(scrapedData), 2000)
   }
 
   const handleRedo = async (event: FormEvent) => {
@@ -71,6 +72,7 @@ export default function Home() {
       const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
       setStatus(res.data.error ? res.data.error : res.data.message);
       setScrapedData(res.data.data);
+      console.log(res.data)
       const heading_data = res.data.data[0].length ? [...res.data.data[0].map((item: any) => [item[0], item[1]])] : [];
       const paragraph_data = res.data.data[1].length ? [...res.data.data[1].map((item: any) => item)] : [];
       const link_data = res.data.data[2].length ? [...res.data.data[2].map((item: any) => [item[0], item[1]])] : [];
@@ -87,7 +89,7 @@ export default function Home() {
   }
 
   useEffect(() => {
-  
+    console.log(scrapedData) 
   }, [scrapedData])
 
   return (
@@ -98,18 +100,18 @@ export default function Home() {
           submitted
           ?
           <div className="flex flex-col justify-center items-center">
+            <h1 className="text-3xl font-semibold mt-4 mb-2">
+              Results
+            </h1>
             {status === "Scraping successful" ? 
-              <h1 className="text-xl text-green-500">
+              <h1 className="text-lg text-green-500 mb-6">
               Scraping successful!
               </h1>
               :
-              <h1 className="text-2xl text-red-500">
+              <h1 className="text-2xl text-red-500 mb-6">
               Scraping error: {status}
               </h1>
             }
-            <h1 className="text-2xl font-semibold mt-4 mb-4">
-              Results
-            </h1>
             <section className="w-full text-center flex justify-center items-center mb-4">
               {
                 scrapedData ? 
@@ -134,8 +136,8 @@ export default function Home() {
           </div>
           :
           <div className="flex flex-col justify-center items-center">
-            <h1 className="text-xl mb-12">
-              Choose a website to retrieve some HTML elements!
+            <h1 className="text-3xl font-semibold mb-10">
+              Web Scraper
             </h1>
             <div className="mb-16 flex flex-col justify-center items-center">
               <span className={stepCSS}>
@@ -145,7 +147,7 @@ export default function Home() {
                   </h2>
                 </div>
                 <h2 className={titleCSS}>
-                  Enter a website
+                  Enter any website
                 </h2>
               </span>
               <input 
@@ -153,7 +155,7 @@ export default function Home() {
                 id="urlInput"
                 value={url}
                 onChange={handleUrlChange}
-                className="w-[600px] pl-2 h-8 border-slate-600 border rounded-md"
+                className="w-[600px] mt-2 pl-2 h-8 border-slate-600 border rounded-md"
               />
               {
                 urlError ?
@@ -216,7 +218,7 @@ export default function Home() {
                     htmlFor="headings"
                     className={labelCSS}
                   >
-                    Heading
+                    Heading text
                   </label>
                   <input 
                     type="checkbox" 
@@ -260,13 +262,31 @@ export default function Home() {
                 </form>
                 {
                   elementsError ?
-                  <p className="mb-7 pt-4 text-red-600 text-sm">
+                  <p className="mb-5 pt-4 text-red-600 text-sm">
                     Select at least one element to retrieve!
                   </p>
                   :
-                  <div className="mb-16"></div>
+                  <div className="mb-14"></div>
                 }
               </div>
+            </div>
+            <div className="mb-8 flex flex-col justify-center items-center">
+              <span className={stepCSS}>
+                <div className={stepCircleCSS}>
+                  <h2 className={stepNumberCSS}>
+                    3
+                  </h2>
+                </div>
+                <h2 className={titleCSS}>
+                  Press Submit to start
+                </h2>
+              </span>
+              <p className="text-center max-w-xl">
+                The selected website will quickly open and close in a new 
+                  window (don't be alarmed!) for the data to be processed, 
+                  then the results will be displayed here.
+                <br/>
+              </p>
             </div>
             <div className="w-full flex items-center justify-center">
               <button 

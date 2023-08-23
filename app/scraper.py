@@ -3,6 +3,7 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 app = Flask(__name__)
 CORS(app)
@@ -10,7 +11,10 @@ CORS(app)
 @app.route('/scrape', methods=['POST'])
 def scrape():
     try:
-        driver = webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+
+        driver = webdriver.Chrome(options=chrome_options)
         driver.get('http://localhost:3000/')
 
         element_types = request.json.get('element_types', [])
