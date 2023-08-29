@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 function Navbar() {
-  const linkCSS: string = `px-2 mx-8`;
+  const linkCSS: string = `hover:opacity-50 transition-opacity px-2 mx-8`;
 
   return (
     <nav className="">

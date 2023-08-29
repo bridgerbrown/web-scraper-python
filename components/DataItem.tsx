@@ -12,24 +12,26 @@ export default function DataItem(props: any) {
             </h2>
           </div>
         </div>
-        {type != "Link" ?
-          type != "Heading" ?
-            <h2 className="text-base">
-            `{item}`
-            </h2>
+        <span className="break-words w-[550px]">
+          {type != "Link" ?
+            type != "Heading" ?
+              <h2 className="text-base">
+              `{item}`
+              </h2>
+              :
+              <h2 className="font-semibold">
+              `{item[1]}`
+              </h2>
             :
-            <h2 className="font-semibold">
-            `{item[1]}`
-            </h2>
-          :
-          <a 
-            href={item[1]}
-            target="_blank" rel="noopener noreferrer"
-            className="text-blue-500 underline underline-offset-2"
-          >
-            {item[0]}
-          </a>
-        }
+            <a 
+              href={item[1]}
+              target="_blank" rel="noopener noreferrer"
+              className="text-blue-500 underline underline-offset-2"
+            >
+              {item[0]}
+            </a>
+          }
+        </span>
       </div>
     </div>
   )

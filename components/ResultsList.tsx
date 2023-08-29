@@ -3,8 +3,8 @@ import DataItem from "./DataItem";
 export default function ResultsList(props: any) {
   const { data, type } = props;
   const dataSectionCSS: string = `max-w-xl mb-12`;
-  const dataHeadingCSS: string = `mb-1 text-lg`;
-  const dataResultsCSS: string = `flex flex-col space-y-6 justify-center items-start`;
+  const dataHeadingCSS: string = `mb-1 text-xl font-semibold`;
+  const dataResultsCSS: string = `flex flex-col space-y-5 justify-center items-start`;
 
   return (
     <div>
