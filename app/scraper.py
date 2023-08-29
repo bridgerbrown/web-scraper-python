@@ -30,7 +30,8 @@ def scrape():
             capabilities['ignoreProtectedModeSettings'] = True
             driver = webdriverIe(capabilities=capabilities)
 
-        driver.get('http://localhost:3000/')
+        url = request.json.get('url')
+        driver.get(url)
 
         element_types = request.json.get('element_types', [])
 
@@ -56,7 +57,9 @@ def scrape():
                     p_elements.append(p.get_text())
             elif element_type == 'link':
                 for link in soup.findAll('a'):
-                    link_elements.append([link.get_text(), link['href']])
+                    link_elements.append([link.get_text(), link.get('href')])
+                for link in soup.findAll('link'):
+                    link_elements.append([link.get('rel'), link.get('href')])
             elif element_type == 'meta':
                 for meta in soup.head.findAll('meta'):
                     meta_elements.append(meta.attrs)

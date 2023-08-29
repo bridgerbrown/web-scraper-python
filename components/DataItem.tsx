@@ -7,7 +7,7 @@ export default function DataItem(props: any) {
       <div className="flex text-left items-center justify-between">
         <div>
           <div className="mr-4 w-7 h-7 rounded-full bg-slate-300 flex justify-center items-center">
-            <h2 className="absolute text-base">
+            <h2 className="absolute text-sm">
             {index}
             </h2>
           </div>
@@ -18,15 +18,7 @@ export default function DataItem(props: any) {
             `{item}`
             </h2>
             :
-            <h2 className={`
-              ${item[0] === 'h1' ? 'text-xl font-semibold' :
-               item[0] === 'h2' ? 'text-lg font-medium' :
-               item[0] === 'h3' ? 'text-base font-normal' :
-               item[0] === 'h4' ? 'text-sm' :
-               item[0] === 'h5' ? 'text-xs' :
-               item[0] === 'h6' ? 'text-sm' :
-               item[0] === 'h7' ? 'text-sm' : ''}
-            `}>
+            <h2 className="font-semibold">
             `{item[1]}`
             </h2>
           :

@@ -83,6 +83,7 @@ export default function Home() {
   const handleScraper = async () => {
     try {
       const requestData = {
+        url: url,
         element_types: selectedElements,
         browser: browser
       };
