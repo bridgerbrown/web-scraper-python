@@ -6,17 +6,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from requests_html import HTMLSession
 
 app = Flask(__name__)
 CORS(app)
-
-def handle_unknown_browser(url):
-    session = HTMLSession()
-    res = session.get(url)
-    res.html.render()
-    content = res.html.raw_html
-    soup = BeautifulSoup(content, 'html.parser')
 
 @app.route('/scrape', methods=['POST'])
 def scrape():
@@ -37,8 +29,6 @@ def scrape():
             capabilities = DesiredCapabilities.INTERNETEXPLORER.copy()
             capabilities['ignoreProtectedModeSettings'] = True
             driver = webdriverIe(capabilities=capabilities)
-        else:
-            handle_unknown_browser('http://localhost:3000/')
 
         driver.get('http://localhost:3000/')
 

@@ -11,7 +11,8 @@ export default function Home() {
   const stepCircleCSS: string = `w-8 h-8 rounded-full text-white bg-blue-500 flex justify-center items-center`;
   const stepNumberCSS: string = `font-semibold absolute`;
   const presetButtonCSS: string = `px-5 py-2 text-sm bg-slate-300 hover:bg-slate-400/60 transition-colors rounded-sm mx-2`;
-  const labelCSS: string = `ml-2 mr-6 cursor-pointer`;
+  const labelCSS: string = `ml-2 mr-3 cursor-pointer`;
+  const radioCSS: string = `ml-3`;
 
   const [url, setUrl] = useState<string>("");
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
@@ -113,7 +114,7 @@ export default function Home() {
         {
           submitted
           ?
-            loading && !scrapedData
+            loading 
             ?
             <div className="w-screen flex items-center justify-center">
               <h2 className="text-2xl">
@@ -130,9 +131,15 @@ export default function Home() {
                 Scraping successful!
                 </h1>
                 :
-                <h1 className="text-2xl text-red-500 mb-6">
-                Scraping error: {status}
-                </h1>
+                <span className="max-w-xl flex flex-col justify-center items-center">
+                  <h1 className="text-2xl font-semibold text-red-500 mb-2">
+                  Scraping error:
+                  </h1>
+                  <h2 className="text-center text-lg text-red-500 mb-4">
+                    {status}
+                  </h2>
+                  <p className="mb-6">Did you select the right browser?</p>
+                </span>
               }
               <section className="w-full text-center flex justify-center items-center mb-4">
                 {
@@ -293,7 +300,7 @@ export default function Home() {
               </div>
             </div>
             <div className="mb-6 flex flex-col justify-center items-center">
-              <span className={stepCSS}>
+              <span className="mb-1 flex justify-center items-center">
                 <div className={stepCircleCSS}>
                   <h2 className={stepNumberCSS}>
                     3
@@ -303,6 +310,9 @@ export default function Home() {
                   Select which browser you're using
                 </h2>
               </span>
+              <p className="mb-6 text-gray-600 text-xs">
+                  Other browsers are not currently supported
+              </p>
               <div className="text-center mt-2 mb-0">
                 <form 
                   id="browsers"
@@ -314,6 +324,7 @@ export default function Home() {
                     value="chrome" 
                     name="browsers"
                     onChange={handleRadioChange}
+                    className={radioCSS}
                   />
                   <label 
                     htmlFor="chrome"
@@ -327,6 +338,7 @@ export default function Home() {
                     value="safari" 
                     name="browsers" 
                     onChange={handleRadioChange}
+                    className={radioCSS}
                   />
                   <label 
                     htmlFor="safari"
@@ -340,6 +352,7 @@ export default function Home() {
                     value="firefox" 
                     name="browsers" 
                     onChange={handleRadioChange}
+                    className={radioCSS}
                   />
                   <label 
                     htmlFor="firefox"
@@ -353,25 +366,13 @@ export default function Home() {
                     value="ie" 
                     name="browsers" 
                     onChange={handleRadioChange}
+                    className={radioCSS}
                   />
                   <label 
                     htmlFor="ie"
                     className={labelCSS}
                   >
                     Internet Explorer
-                  </label>
-                  <input 
-                    type="radio" 
-                    id="other" 
-                    value="other" 
-                    name="browsers" 
-                    onChange={handleRadioChange}
-                  />
-                  <label 
-                    htmlFor="other"
-                    className={labelCSS}
-                  >
-                    Other
                   </label>
                 </form>
                 {
