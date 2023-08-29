@@ -69,6 +69,10 @@ export default function Home() {
     setScrapedData([]);
     setUrl("");
     setSelectedElements([]);
+    setHeadingData([]);
+    setParagraphData([]);
+    setLinkData([]);
+    setMetaData([]);
     setUrlError(false);
     setElementsError(false);
     setBrowserError(false);
@@ -78,7 +82,8 @@ export default function Home() {
   const handleScraper = async () => {
     try {
       const requestData = {
-        element_types: selectedElements
+        element_types: selectedElements,
+        browser: browser
       };
       const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
       setLoading(false);
@@ -108,7 +113,7 @@ export default function Home() {
         {
           submitted
           ?
-            loading && !scrapedData.length
+            loading && !scrapedData
             ?
             <div className="w-screen flex items-center justify-center">
               <h2 className="text-2xl">
