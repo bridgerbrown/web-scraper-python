@@ -15,8 +15,8 @@ export default function Home() {
   const labelCSS: string = `ml-2 mr-4 cursor-pointer hover:opacity-50 transition-opacity`;
   const checkboxCSS: string = `cursor-pointer ml-3`;
   const radioCSS: string = `cursor-pointer ml-3`;
-  const startSectionCSS: string = `bg-white drop-shadow-xl w-[800px] min-h-[925px] border border-gray-400 rounded-md mt-12 justify-center items-center flex flex-col`;
-  const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl w-[800px] min-h-[925px] border border-gray-400 rounded-md mt-12 justify-start items-center flex flex-col`;
+  const startSectionCSS: string = `bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 rounded-md mt-12 justify-center items-center flex flex-col`;
+  const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 rounded-md mt-12 justify-start items-center flex flex-col`;
 
   const [url, setUrl] = useState<string>("");
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
