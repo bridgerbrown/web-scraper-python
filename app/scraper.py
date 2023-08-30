@@ -72,6 +72,10 @@ def scrape():
             'message': 'Scraping successful',
             'data': scraped_elements
         })
+    except requests.exceptions.RequestException as req_err:
+        return jsonify({'error': f'Request error: {str(req_err)}'})
+    except WebDriverException as wd_err:
+        return jsonify({'error': f'WebDriver error: {str(wd_err)}'})
     except Exception as e:
         return jsonify({'error': str(e)})
 
