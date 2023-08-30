@@ -1,3 +1,4 @@
+import Image from "next/image";
 
 export default function StartSection(props: any) {
   const {url, urlError, handleUrlChange, setUrl, handleCheckboxChange, elementsError, browserError, 
@@ -14,7 +15,7 @@ export default function StartSection(props: any) {
   return (
     <div className="flex flex-col justify-center items-center">
       <h1 className="font-semibold text-3xl mb-14">
-        Web Scraper
+        Web Scraper 
       </h1>
       <div className="mb-16 flex flex-col justify-center items-center">
         <span className={stepCSS}>

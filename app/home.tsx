@@ -5,10 +5,13 @@ import axios from "axios";
 import Footer from "@/components/Footer";
 import ResultsSection from "@/components/ResultsSection";
 import StartSection from "@/components/StartSection";
+import Loading from "@/components/Loading";
 
 export default function Home() {
-  const startSectionCSS: string = `bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 rounded-md mt-12 justify-center items-center flex flex-col`;
-  const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 rounded-md mt-12 justify-start items-center flex flex-col`;
+  const startSectionCSS: string = `bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 
+    rounded-md mt-12 justify-center items-center flex flex-col`;
+  const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 
+    rounded-md mt-12 justify-start items-center flex flex-col`;
 
   const [url, setUrl] = useState<string>("");
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
@@ -120,11 +123,7 @@ export default function Home() {
             ?
               loading 
               ?
-              <div className=" flex items-center justify-center">
-                <h2 className="text-2xl">
-                  Loading...
-                </h2>
-              </div>
+              <Loading />
               :
               <ResultsSection
                 status={status}
