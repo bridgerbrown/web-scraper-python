@@ -8,7 +8,7 @@ import StartSection from "@/components/StartSection";
 import Loading from "@/components/Loading";
 
 export default function Home() {
-  const startSectionCSS: string = `bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 
+  const startSectionCSS: string = `bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[925px] border border-gray-400 
     rounded-md mt-12 justify-center items-center flex flex-col`;
   const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl w-[750px] min-h-[925px] border border-gray-400 
     rounded-md mt-12 justify-start items-center flex flex-col`;
