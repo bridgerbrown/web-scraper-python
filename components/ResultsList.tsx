@@ -2,12 +2,12 @@ import DataItem from "./DataItem";
 
 export default function ResultsList(props: any) {
   const { data, type } = props;
-  const dataSectionCSS: string = `max-w-xl mb-12`;
-  const dataHeadingCSS: string = `mb-1 text-xl font-semibold`;
+  const dataSectionCSS: string = `md:w-full md:max-w-2xl w-9/12 mb-12`;
+  const dataHeadingCSS: string = `mb-1 md:text-xl text-lg font-semibold`;
   const dataResultsCSS: string = `flex flex-col space-y-5 justify-center items-start`;
 
   return (
-    <div>
+    <div className="w-screen flex justify-center items-center">
       {
       data ?
         <div className={dataSectionCSS}>

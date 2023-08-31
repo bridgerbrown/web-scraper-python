@@ -33,7 +33,7 @@ export default function StartSection(props: any) {
           id="urlInput"
           value={url}
           onChange={handleUrlChange}
-          className="w-11/12 md:w-[600px] mt-2 pl-2 h-8 border-slate-600 border rounded-md"
+          className="md:text-base sm:text-sm text-xs w-11/12 md:w-[600px] mt-2 pl-2 h-8 border-slate-600 border rounded-md"
         />
         {
           urlError ?

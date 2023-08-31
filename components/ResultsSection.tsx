@@ -6,7 +6,7 @@ export default function ResultsSection(props: any){
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-semibold mb-2">
+      <h1 className="md:text-3xl text-2xl font-semibold mb-2">
         Results
       </h1>
       {status === "Scraping successful" ? 
@@ -45,7 +45,7 @@ export default function ResultsSection(props: any){
       <div className="w-full flex items-center justify-center">
         <button 
           onClick={handleRedo}
-          className="mb-16 px-6 py-2 text-white bg-teal-800 rounded-full hover:bg-teal-600 drop-shadow-none hover:drop-shadow-lg transition-all"
+          className="md:text-base text-sm mb-16 px-6 py-2 text-white bg-teal-800 rounded-full hover:bg-teal-600 drop-shadow-none hover:drop-shadow-lg transition-all"
         >
           Restart
         </button>
