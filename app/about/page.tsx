@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 
 export default function About() {
-  const sectionCSS: string = `text-left mt-12 max-w-xl flex flex-col justify-center items-center`;
+  const sectionCSS: string = `text-left mt-12 max-w-3xl text-center flex flex-col justify-center items-center`;
   const imgCSS: string = `animate-bounce`;
   const headingCSS: string = `mb-4 mt-6 text-xl font-semibold`;
   const pCSS: string = `mb-2`;
@@ -25,10 +25,9 @@ export default function About() {
             How was this built?
           </h1>
           <p className={pCSS}>
-            <span className="ml-10">The </span>
-            main functionality of the web scraper comes from the back-end, which was built using Python, the Flask framework to create the
-            web server that listens to the front-end, and the BeautifulSoup library for parsing the HTML content.
-            The front-end user interface was built using React, TypeScript, NextJS, and TailwindCSS.
+            The main functionality of the web scraper comes from the back-end code, which was built using Python, the 
+            Flask framework to create the web server that listens to the front-end, and the BeautifulSoup 
+            library for parsing the HTML content. The front-end user interface was built using React, TypeScript, NextJS, and TailwindCSS.
           </p>
         </div>
         <div className={sectionCSS}>
@@ -46,11 +45,13 @@ export default function About() {
             <span className="ml-10">This </span>
             web development project was made just for the purpose of improving my
             development skills, particularly with back-end technology like Python. 
+            <br/>
+            <br/>
             Feel free to check out some of my other projects!
           </p>
           <div className="flex space-x-4 mt-4">
             <a 
-              href="https://www.bridgerbrown.dev/"
+              href="https://github.com/bridgerbrown/web-scraper-python"
               target="_blank"
               rel="noopener noreferrer"
               className={linkCSS}
