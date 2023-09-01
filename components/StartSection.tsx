@@ -164,7 +164,7 @@ export default function StartSection(props: any) {
             </h2>
           </div>
           <h2 className={titleCSS}>
-            Select which browser you're using
+            Select which browser you&apos;re using
           </h2>
         </span>
         <p className="mb-6 text-gray-600 text-xs">
