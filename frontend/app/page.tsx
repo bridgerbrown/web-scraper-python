@@ -9,7 +9,7 @@ const scraperRequest = async (url: string, selectedElements: any, browser: strin
       element_types: selectedElements,
       browser: browser
     };
-    const res = await axios.post('https://web-scraper-python-backend.vercel.app/', requestData);
+    const res = await axios.post('https://web-scraper-python-backend.vercel.app/scrape', requestData);
     return res;
   } catch (error) {
     console.log(error);
