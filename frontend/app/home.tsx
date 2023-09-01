@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import ResultsSection from "@/components/ResultsSection";
 import StartSection from "@/components/StartSection";
 import Loading from "@/components/Loading";
+import axios from "axios";
 
 export default function Home(props: any) {
   const { scraperRequest } = props;
@@ -86,7 +87,12 @@ export default function Home(props: any) {
 
   const handleScraper = async () => {
     try {
-      const res = await scraperRequest(url, selectedElements, browser);
+      const requestData = {
+        url: url,
+        element_types: selectedElements,
+        browser: browser
+      };
+      const res = await axios.post('https://web-scraper-python-backend.vercel.app/scrape', requestData);
       setLoading(false);
       setLoadingTime((prev) => performance.now() - prev);
       setStatus(res.data.error ? res.data.error : res.data.message);
