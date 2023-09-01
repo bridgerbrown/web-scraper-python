@@ -40,7 +40,7 @@ def download_chromedriver():
     else:
         raise Exception(f"Unsupported platform: {system_platform}")
 
-    temp_dir = '/tmp/chromedriver'
+    temp_dir = '/tmp'
     os.makedirs(temp_dir, exist_ok=True)
 
     chromedriver_path = os.path.join(temp_dir, "chromedriver")
