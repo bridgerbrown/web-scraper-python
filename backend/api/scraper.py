@@ -1,6 +1,3 @@
-import json
-import requests
-from http.server import BaseHTTPRequestHandler
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
@@ -9,20 +6,17 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import WebDriverException
 
 app = Flask(__name__)
 CORS(app)
 
-class Handler(BaseHTTPRequestHandler):
-
-    def do_POST(self):
+@app.route('/scrape', methods=['GET', 'POST'])
+def scrape():
+    if request.method == 'GET':
+        return "This is a GET request."
+    elif request.method == 'POST':
         try:
-            content_length = int(self.headers['Content-Length'])
-            request_data = self.rfile.read(content_length).decode('utf-8')
-            request_json = json.loads(request_data)
-
-            browser_type = request_json.get('browser')
+            browser_type = request.json.get('browser')
 
             if browser_type == 'chrome':
                 options = Options()
@@ -37,12 +31,12 @@ class Handler(BaseHTTPRequestHandler):
             elif browser_type == 'ie':
                 capabilities = DesiredCapabilities.INTERNETEXPLORER.copy()
                 capabilities['ignoreProtectedModeSettings'] = True
-                driver = webdriver.Ie(capabilities=capabilities)
+                driver = webdriverIe(capabilities=capabilities)
 
-            url = request_json.get('url')
+            url = request.json.get('url')
             driver.get(url)
 
-            element_types = request_json.get('element_types', [])
+            element_types = request.json.get('element_types', [])
 
             heading_elements = []
             p_elements = []
@@ -77,38 +71,16 @@ class Handler(BaseHTTPRequestHandler):
             df = pd.DataFrame({'scraped_elements': series})
             scraped_data = df.to_dict(orient='records')
 
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-
-            response_data = {
+            return jsonify({
                 'message': 'Scraping successful',
                 'data': scraped_elements
-            }
-
-            self.wfile.write(json.dumps(response_data).encode('utf-8'))
-
+            })
         except requests.exceptions.RequestException as req_err:
-            self.send_response(500)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            error_response = {'error': f'Request error: {str(req_err)}'}
-            self.wfile.write(json.dumps(error_response).encode('utf-8'))
-
+            return jsonify({'error': f'Request error: {str(req_err)}'})
         except WebDriverException as wd_err:
-            self.send_response(500)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            error_response = {'error': f'WebDriver error: {str(wd_err)}'}
-            self.wfile.write(json.dumps(error_response).encode('utf-8'))
-
+            return jsonify({'error': f'WebDriver error: {str(wd_err)}'})
         except Exception as e:
-            self.send_response(500)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            error_response = {'error': str(e)}
-            self.wfile.write(json.dumps(error_response).encode('utf-8'))
+            return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
     app.run()
-
