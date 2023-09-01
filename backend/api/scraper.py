@@ -40,10 +40,10 @@ def download_chromedriver():
     else:
         raise Exception(f"Unsupported platform: {system_platform}")
 
-    chromedriver_dir = os.path.join(os.path.dirname(__file__), 'chromedriver')
-    os.makedirs(chromedriver_dir, exist_ok=True)
+    temp_dir = '/tmp/chromedriver'
+    os.makedirs(temp_dir, exist_ok=True)
 
-    chromedriver_path = os.path.join(chromedriver_dir, "chromedriver")
+    chromedriver_path = os.path.join(temp_dir, "chromedriver")
     if not os.path.exists(chromedriver_path):
         response = requests.get(chromedriver_url)
         if response.status_code == 200:
@@ -71,10 +71,10 @@ def download_geckodriver():
     else:
         raise Exception(f"Unsupported platform: {system_platform}")
 
-    geckodriver_dir = os.path.join(os.path.dirname(__file__), 'geckodriver')
-    os.makedirs(geckodriver_dir, exist_ok=True)
+    temp_dir = '/tmp/geckodriver'
+    os.makedirs(temp_dir, exist_ok=True)
 
-    geckodriver_path = os.path.join(geckodriver_dir, "geckodriver")
+    geckodriver_path = os.path.join(temp_dir, "geckodriver")
     if not os.path.exists(geckodriver_path):
         response = requests.get(geckodriver_url)
         if response.status_code == 200:
@@ -103,10 +103,10 @@ def download_iedriver():
     else:
         raise Exception(f"Unsupported system architecture: {system_architecture}")
 
-    iedriver_dir = os.path.join(os.path.dirname(__file__), 'iedriver')
-    os.makedirs(iedriver_dir, exist_ok=True)
+    temp_dir = '/tmp/iedriver'
+    os.makedirs(temp_dir, exist_ok=True)
 
-    iedriver_path = os.path.join(iedriver_dir, "IEDriverServer.exe")
+    iedriver_path = os.path.join(temp_dir, "IEDriverServer.exe")
     if not os.path.exists(iedriver_path):
         response = requests.get(iedriver_url)
         if response.status_code == 200:
