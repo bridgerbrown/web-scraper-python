@@ -47,11 +47,11 @@ def download_chromedriver():
     if not os.path.exists(chromedriver_path):
         response = requests.get(chromedriver_url)
         if response.status_code == 200:
-            with open(os.path.join(chromedriver_dir, "chromedriver.zip"), "wb") as f:
+            with open(os.path.join(temp_dir, "chromedriver.zip"), "wb") as f:
                 f.write(response.content)
-            with zipfile.ZipFile(os.path.join(chromedriver_dir, "chromedriver.zip"), "r") as zip_ref:
-                zip_ref.extractall(chromedriver_dir)
-            os.remove(os.path.join(chromedriver_dir, "chromedriver.zip"))
+            with zipfile.ZipFile(os.path.join(temp_dir, "chromedriver.zip"), "r") as zip_ref:
+                zip_ref.extractall(temp_dir)
+            os.remove(os.path.join(temp_dir, "chromedriver.zip"))
             os.chmod(chromedriver_path, 0o755)  # Make the file executable
         else:
             raise Exception(f"Failed to download ChromeDriver: {response.status_code}")
@@ -78,17 +78,17 @@ def download_geckodriver():
     if not os.path.exists(geckodriver_path):
         response = requests.get(geckodriver_url)
         if response.status_code == 200:
-            with open(os.path.join(geckodriver_dir, "geckodriver.zip"), "wb") as f:
+            with open(os.path.join(temp_dir, "geckodriver.zip"), "wb") as f:
                 f.write(response.content)
             if system_platform == "Windows":
                 import zipfile
-                with zipfile.ZipFile(os.path.join(geckodriver_dir, "geckodriver.zip"), "r") as zip_ref:
-                    zip_ref.extractall(geckodriver_dir)
+                with zipfile.ZipFile(os.path.join(temp_dir, "geckodriver.zip"), "r") as zip_ref:
+                    zip_ref.extractall(temp_dir)
             else:
                 import tarfile
-                with tarfile.open(os.path.join(geckodriver_dir, "geckodriver.tar.gz"), "r:gz") as tar_ref:
-                    tar_ref.extractall(geckodriver_dir)
-            os.remove(os.path.join(geckodriver_dir, "geckodriver.zip"))
+                with tarfile.open(os.path.join(temp_dir, "geckodriver.tar.gz"), "r:gz") as tar_ref:
+                    tar_ref.extractall(temp_dir)
+            os.remove(os.path.join(temp_dir, "geckodriver.zip"))
             os.chmod(geckodriver_path, 0o755)
 
     return geckodriver_path
@@ -110,12 +110,12 @@ def download_iedriver():
     if not os.path.exists(iedriver_path):
         response = requests.get(iedriver_url)
         if response.status_code == 200:
-            with open(os.path.join(iedriver_dir, "iedriver.zip"), "wb") as f:
+            with open(os.path.join(temp_dir, "iedriver.zip"), "wb") as f:
                 f.write(response.content)
             import zipfile
-            with zipfile.ZipFile(os.path.join(iedriver_dir, "iedriver.zip"), "r") as zip_ref:
-                zip_ref.extractall(iedriver_dir)
-            os.remove(os.path.join(iedriver_dir, "iedriver.zip"))
+            with zipfile.ZipFile(os.path.join(temp_dir, "iedriver.zip"), "r") as zip_ref:
+                zip_ref.extractall(temp_dir)
+            os.remove(os.path.join(temp_dir, "iedriver.zip"))
 
     return iedriver_path
 
