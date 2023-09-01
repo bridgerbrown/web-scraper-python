@@ -1,3 +1,4 @@
+"use server"
 import Home from "./home";
 import axios from "axios";
 

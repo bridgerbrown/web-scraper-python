@@ -139,9 +139,8 @@ def get_webdriver(browser_type):
         except SessionNotCreatedException:
             return jsonify({'error': 'Safari WebDriver is not enabled.'})
     elif browser_type == 'ie':
-        capabilities = DesiredCapabilities.INTERNETEXPLORER.copy()
-        capabilities['ignoreProtectedModeSettings'] = True
-        return webdriver.Ie(capabilities=capabilities)
+        iedriver_path = download_iedriver()
+        return webdriver.Ie(executable_path=iedriver_path)
     else:
         raise Exception(f"Unsupported browser type: {browser_type}")
 
