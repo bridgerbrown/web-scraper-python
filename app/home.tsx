@@ -91,7 +91,7 @@ export default function Home() {
         element_types: selectedElements,
         browser: browser
       };
-      const res = await axios.post('http://127.0.0.1:5000/scrape', requestData);
+      const res = await axios.post('/api/scrape', requestData);
       setLoading(false);
       setLoadingTime((prev) => performance.now() - prev);
       setStatus(res.data.error ? res.data.error : res.data.message);
