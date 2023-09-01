@@ -9,7 +9,7 @@ const scraperRequest = async (url: string, selectedElements: any, browser: strin
       element_types: selectedElements,
       browser: browser
     };
-    const res = await axios.post('/api/scrape', requestData);
+    const res = await axios.post('/api/scraper', requestData);
     return res;
   } catch (error) {
     console.log(error);
