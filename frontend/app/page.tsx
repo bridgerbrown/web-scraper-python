@@ -2,6 +2,7 @@ import Home from "./home";
 import axios from "axios";
 
 const scraperRequest = async (url: string, selectedElements: any, browser: string) => {
+  "use server"
   try {
     const requestData = {
       url: url,
