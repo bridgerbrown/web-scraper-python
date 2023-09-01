@@ -1,13 +1,13 @@
 "use client"
 import Navbar from "@/components/Navbar"
 import React, {useState, ChangeEvent, FormEvent, useEffect} from "react";
-import axios from "axios";
 import Footer from "@/components/Footer";
 import ResultsSection from "@/components/ResultsSection";
 import StartSection from "@/components/StartSection";
 import Loading from "@/components/Loading";
 
-export default function Home() {
+export default function Home(props: any) {
+  const { scraperRequest } = props;
   const startSectionCSS: string = `bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[925px] border border-gray-400 
     rounded-md mt-12 justify-center items-center flex flex-col`;
   const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[925px] border border-gray-400 
@@ -86,12 +86,7 @@ export default function Home() {
 
   const handleScraper = async () => {
     try {
-      const requestData = {
-        url: url,
-        element_types: selectedElements,
-        browser: browser
-      };
-      const res = await axios.post('/api/scrape', requestData);
+      const res = await scraperRequest(url, selectedElements, browser);
       setLoading(false);
       setLoadingTime((prev) => performance.now() - prev);
       setStatus(res.data.error ? res.data.error : res.data.message);
