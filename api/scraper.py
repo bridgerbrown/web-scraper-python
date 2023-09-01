@@ -1,3 +1,5 @@
+import json
+import requests
 from http.server import BaseHTTPRequestHandler
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -8,7 +10,6 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import WebDriverException
-import json
 
 app = Flask(__name__)
 CORS(app)
@@ -21,7 +22,7 @@ class Handler(BaseHTTPRequestHandler):
             request_data = self.rfile.read(content_length).decode('utf-8')
             request_json = json.loads(request_data)
 
-            browser_type = request.json.get('browser')
+            browser_type = request_json.get('browser')
 
             if browser_type == 'chrome':
                 options = Options()
@@ -38,10 +39,10 @@ class Handler(BaseHTTPRequestHandler):
                 capabilities['ignoreProtectedModeSettings'] = True
                 driver = webdriver.Ie(capabilities=capabilities)
 
-            url = request.json.get('url')
+            url = request_json.get('url')
             driver.get(url)
 
-            element_types = request.json.get('element_types', [])
+            element_types = request_json.get('element_types', [])
 
             heading_elements = []
             p_elements = []
