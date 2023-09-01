@@ -5,6 +5,7 @@ export default async function Page() {
   const scraperRequest = async (url: string, selectedElements: any, browser: string) => {
     "use server"
     try {
+    "use server"
       const requestData = {
         url: url,
         element_types: selectedElements,
