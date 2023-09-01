@@ -3,11 +3,11 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 
 export default function About() {
-  const sectionCSS: string = `text-left mt-12 max-w-3xl text-center flex flex-col justify-center items-center`;
+  const sectionCSS: string = `text-left mt-12 md:max-w-3xl w-11/12 text-center flex flex-col justify-center items-center`;
   const imgCSS: string = `animate-bounce`;
-  const headingCSS: string = `mb-4 mt-6 text-xl font-semibold`;
-  const pCSS: string = `mb-2`;
-  const linkCSS: string = `hover:opacity-50 transition-opacity cursor-pointer underline-offset-2 underline`;
+  const headingCSS: string = `mb-4 mt-6 md:text-xl text-lg font-semibold`;
+  const pCSS: string = `md:text-base text-sm mb-2`;
+  const linkCSS: string = `md:text-base text-sm hover:opacity-50 transition-opacity cursor-pointer underline-offset-2 underline`;
 
   return (
     <main className="bg-teal-100 min-h-screen relative pb-60">

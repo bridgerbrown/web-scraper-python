@@ -3,10 +3,10 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 
 export default function How() {
-  const sectionCSS: string = `mt-12 max-w-3xl text-center flex flex-col justify-center items-center`;
+  const sectionCSS: string = `mt-12 md:max-w-3xl w-11/12 text-center flex flex-col justify-center items-center`;
   const imgCSS: string = ``;
-  const headingCSS: string = `text-center mb-4 mt-6 text-xl font-semibold`;
-  const pCSS: string = ``;
+  const headingCSS: string = `text-center mb-4 mt-6 md:text-xl text-lg font-semibold`;
+  const pCSS: string = `md:text-base text-sm`;
 
   return (
     <main className="bg-teal-100 min-h-screen relative pb-60">
