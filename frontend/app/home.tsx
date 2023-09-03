@@ -1,5 +1,5 @@
 "use client"
-import Navbar from "@/components/Navbar"
+import Navbar from "@/components/Navbar";
 import React, {useState, ChangeEvent, FormEvent, useEffect} from "react";
 import Footer from "@/components/Footer";
 import ResultsSection from "@/components/ResultsSection";
@@ -7,8 +7,7 @@ import StartSection from "@/components/StartSection";
 import Loading from "@/components/Loading";
 import axios from "axios";
 
-export default function Home(props: any) {
-  const { scraperRequest } = props;
+export default function Home() {
   const startSectionCSS: string = `bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[925px] border border-gray-400 
     rounded-md mt-12 justify-center items-center flex flex-col`;
   const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[925px] border border-gray-400 
@@ -66,7 +65,7 @@ export default function Home(props: any) {
     if (!url || !selectedElements.length) return;
     await handleScraper();
     setLoading(false);
-  }
+  };
 
   const handleRedo = async (event: FormEvent) => {
     event.preventDefault();
@@ -83,7 +82,7 @@ export default function Home(props: any) {
     setBrowserError(false);
     setStatus("");
     setLoadingTime(0);
-  }
+  };
 
   const handleScraper = async () => {
     try {
@@ -108,11 +107,11 @@ export default function Home(props: any) {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
-    console.log(scrapedData) 
-  }, [loading, scrapedData])
+    console.log(scrapedData);
+  }, [loading, scrapedData]);
 
   return (
     <main className="bg-teal-100 relative pb-60">
@@ -156,4 +155,4 @@ export default function Home(props: any) {
       <Footer />
     </main>
   )
-}
+};
