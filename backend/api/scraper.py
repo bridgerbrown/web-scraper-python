@@ -66,10 +66,10 @@ def upload_chromedriver():
         raise Exception(f"Unsupported platform: {system_platform}")
 
     response = requests.get(chromedriver_url)
-        if response.status_code == 200:
-            chromedriver_content = response.content
-        else:
-            raise Exception(f"Failed to download ChromeDriver: {response.status_code}")
+    if response.status_code == 200:
+        chromedriver_content = response.content
+    else:
+        raise Exception(f"Failed to download ChromeDriver: {response.status_code}")
 
     bucket = storage.bucket()
     blob = bucket.blob('chromedriver')  
