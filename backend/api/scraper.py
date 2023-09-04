@@ -14,11 +14,36 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.ie.service import Service as IEService
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import WebDriverException, SessionNotCreatedException
+import firebase_admin
+from firebase_admin import credentials, storage
+
+
+firebase_api_key = os.environ.get('FIREBASE_API_KEY')
+firebase_auth_domain = os.environ.get('FIREBASE_AUTH_DOMAIN')
+firebase_project_id = os.environ.get('FIREBASE_PROJECT_ID')
+firebase_storage_bucket = os.environ.get('FIREBASE_STORAGE_BUCKET')
+firebase_messaging_sender_id = os.environ.get('FIREBASE_MESSAGING_SENDER_ID')
+firebase_app_id = os.environ.get('FIREBASE_APP_ID')
+
+firebase_config = {
+    "apiKey": firebase_api_key,
+    "authDomain": firebase_auth_domain,
+    "projectId": firebase_project_id,
+    "storageBucket": firebase_storage_bucket,
+    "messagingSenderId": firebase_messaging_sender_id,
+    "appId": firebase_app_id
+}
+
+try:
+    firebase_admin.initialize_app(credentials.Certificate(firebase_config))
+except Exception as e:
+    print(f"Error initializing Firebase: {str(e)}")
+
 
 app = Flask(__name__)
 CORS(app)
 
-def download_chromedriver():
+def upload_chromedriver():
     system_platform = platform.system()
 
     if system_platform == "Linux":
@@ -40,23 +65,20 @@ def download_chromedriver():
     else:
         raise Exception(f"Unsupported platform: {system_platform}")
 
-    temp_dir = '/tmp'
-    os.makedirs(temp_dir, exist_ok=True)
-
-    chromedriver_path = os.path.join(temp_dir, "chromedriver")
-    if not os.path.exists(chromedriver_path):
-        response = requests.get(chromedriver_url)
+    response = requests.get(chromedriver_url)
         if response.status_code == 200:
-            with open(os.path.join(temp_dir, "chromedriver.zip"), "wb") as f:
-                f.write(response.content)
-            with zipfile.ZipFile(os.path.join(temp_dir, "chromedriver.zip"), "r") as zip_ref:
-                zip_ref.extractall(temp_dir)
-            os.remove(os.path.join(temp_dir, "chromedriver.zip"))
-            os.chmod(chromedriver_path, 0o755)  # Make the file executable
+            chromedriver_content = response.content
         else:
             raise Exception(f"Failed to download ChromeDriver: {response.status_code}")
 
-    return chromedriver_path
+    bucket = storage.bucket()
+    blob = bucket.blob('chromedriver')  
+    blob.upload_from_string(chromedriver_content)  
+
+    chromedriver_url = blob.public_url
+
+    return chromedriver_url
+
 
 def download_geckodriver():
     geckodriver_version = "0.33.0"
