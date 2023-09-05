@@ -5,14 +5,17 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from webdriver_manager.chrome import ChromeDriverManager
+import os
+
+os.environ['WDM_SSL_VERIFY'] = '0'
+os.environ['GH_TOKEN'] = "asdasdasdasd"
 
 app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        custom_path = '/drivers'
-        return webdriver.Chrome(ChromeDriverManager(path=custom_path).install())
+        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
