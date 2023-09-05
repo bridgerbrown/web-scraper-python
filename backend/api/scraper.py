@@ -12,10 +12,9 @@ def get_webdriver(browser_type):
     drivers_directory = 'drivers'
 
     if browser_type == 'chrome':
-        chromedriver_path = os.path.join(drivers_directory, 'chromedriver-mac-arm64')
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        return webdriver.Chrome(executable_path=chromedriver_path, options=options)
+        return webdriver.Chrome(options=options)
     elif browser_type == 'firefox':
         geckodriver_path = os.path.join(drivers_directory, 'geckodriver')
         options = webdriver.FirefoxOptions()
