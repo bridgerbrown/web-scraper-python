@@ -10,7 +10,7 @@ CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        service = Service(executable_path=r'./api/drivers/chromedriver-mac-arm64')
+        service = Service(executable_path=r'./api/drivers/chromedriver-mac-arm64/chromedriver')
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         options.add_argument('--no-sandbox')
