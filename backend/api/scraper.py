@@ -3,19 +3,26 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
 app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        return webdriver.Chrome()
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        return webdriver.Chrome(ChromeDriverManager().install(),options=chrome_options)
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
         return webdriver.Firefox(options=options)
     elif browser_type == 'ie':
         return webdriver.Ie()
+    elif browser_type == 'safari':
+        return webdriver.Safari()
     else:
         raise Exception(f"Unsupported browser type: {browser_type}")
 
