@@ -1,29 +1,18 @@
 import os
-import platform
-import requests
-import zipfile
-from pathlib import Path
-import json
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.firefox.service import Service as FirefoxService
-from selenium.webdriver.ie.service import Service as IEService
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-from selenium.common.exceptions import WebDriverException, SessionNotCreatedException
 
 app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    drivers_directory = os.path.join(current_directory, 'drivers')
+    drivers_directory = 'drivers'
 
     if browser_type == 'chrome':
-        chromedriver_path = os.path.join(drivers_directory, 'chromedriver-mac-arm64.zip')
+        chromedriver_path = os.path.join(drivers_directory, 'chromedriver-mac-arm64')
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
         return webdriver.Chrome(executable_path=chromedriver_path, options=options)
@@ -90,10 +79,6 @@ def scrape():
                 'message': 'Scraping successful',
                 'data': scraped_elements
             })
-        except requests.exceptions.RequestException as req_err:
-            return jsonify({'error': f'Request error: {str(req_err)}'})
-        except WebDriverException as wd_err:
-            return jsonify({'error': f'WebDriver error: {str(wd_err)}'})
         except Exception as e:
             return jsonify({'error': str(e)})
 
