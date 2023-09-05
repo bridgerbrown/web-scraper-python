@@ -3,7 +3,6 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.options import ChromeOptions
 from selenium.webdriver.chrome.service import Service
 
 app = Flask(__name__)
