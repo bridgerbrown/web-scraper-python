@@ -14,7 +14,6 @@ def get_webdriver(browser_type):
 
     if browser_type == 'chrome':
         service = ChromeService(executable_path=drivers_directory)
-        service.add_argument('--headless')
         return webdriver.Chrome(service=service)
     elif browser_type == 'firefox':
         geckodriver_path = os.path.join(drivers_directory, 'geckodriver')
