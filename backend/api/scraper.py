@@ -1,31 +1,23 @@
-import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
 
 app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
-    drivers_directory = 'drivers/chromedriver-mac-arm64'
-
     if browser_type == 'chrome':
-        service = ChromeService(executable_path=drivers_directory)
-        return webdriver.Chrome(service=service)
+        return webdriver.Chrome()
     elif browser_type == 'firefox':
-        geckodriver_path = os.path.join(drivers_directory, 'geckodriver')
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
-        return webdriver.Firefox(executable_path=geckodriver_path, options=options)
+        return webdriver.Firefox(options=options)
     elif browser_type == 'ie':
-        iedriver_path = os.path.join(drivers_directory, 'iedriver')
-        return webdriver.Ie(executable_path=iedriver_path)
+        return webdriver.Ie()
     else:
         raise Exception(f"Unsupported browser type: {browser_type}")
-
 
 @app.route('/scrape', methods=['GET', 'POST'])
 def scrape():
