@@ -91,7 +91,7 @@ export default function Home() {
         element_types: selectedElements,
         browser: browser
       };
-      const res = await axios.post('https://web-scraper-python-backend.vercel.app/scrape', requestData);
+      const res = await axios.post('https://web-scraper-python-server.onrender.com/scrape', requestData);
       setLoading(false);
       setLoadingTime((prev) => performance.now() - prev);
       setStatus(res.data.error ? res.data.error : res.data.message);
