@@ -15,7 +15,7 @@ CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        return webdriver.Chrome(log_path='/tmp/chromedriver.log')
+        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
