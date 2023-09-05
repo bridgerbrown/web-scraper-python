@@ -4,17 +4,18 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service as ChromeService
 
 app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
-    drivers_directory = 'drivers'
+    drivers_directory = 'drivers/chromedriver-mac-arm64'
 
     if browser_type == 'chrome':
-        options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        return webdriver.Chrome(options=options)
+        service = ChromeService(executable_path=drivers_directory)
+        service.add_argument('--headless')
+        return webdriver.Chrome(service=service)
     elif browser_type == 'firefox':
         geckodriver_path = os.path.join(drivers_directory, 'geckodriver')
         options = webdriver.FirefoxOptions()
