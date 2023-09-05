@@ -43,7 +43,7 @@ except Exception as e:
 app = Flask(__name__)
 CORS(app)
 
-def upload_chromedriver():
+def download_chromedriver():
     system_platform = platform.system()
 
     if system_platform == "Linux":
@@ -79,6 +79,9 @@ def upload_chromedriver():
 
     return chromedriver_url
 
+
+app = Flask(__name__)
+CORS(app)
 
 def download_geckodriver():
     geckodriver_version = "0.33.0"
