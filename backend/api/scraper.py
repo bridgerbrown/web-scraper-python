@@ -14,157 +14,26 @@ from selenium.webdriver.firefox.service import Service as FirefoxService
 from selenium.webdriver.ie.service import Service as IEService
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.common.exceptions import WebDriverException, SessionNotCreatedException
-import firebase_admin
-from firebase_admin import credentials, storage
-
-
-firebase_api_key = os.environ.get('FIREBASE_API_KEY')
-firebase_auth_domain = os.environ.get('FIREBASE_AUTH_DOMAIN')
-firebase_project_id = os.environ.get('FIREBASE_PROJECT_ID')
-firebase_storage_bucket = os.environ.get('FIREBASE_STORAGE_BUCKET')
-firebase_messaging_sender_id = os.environ.get('FIREBASE_MESSAGING_SENDER_ID')
-firebase_app_id = os.environ.get('FIREBASE_APP_ID')
-
-firebase_config = {
-    "apiKey": firebase_api_key,
-    "authDomain": firebase_auth_domain,
-    "projectId": firebase_project_id,
-    "storageBucket": firebase_storage_bucket,
-    "messagingSenderId": firebase_messaging_sender_id,
-    "appId": firebase_app_id
-}
-
-try:
-    firebase_admin.initialize_app(credentials.Certificate(firebase_config))
-except Exception as e:
-    print(f"Error initializing Firebase: {str(e)}")
-
 
 app = Flask(__name__)
 CORS(app)
-
-def download_chromedriver():
-    system_platform = platform.system()
-
-    if system_platform == "Linux":
-        chromedriver_url = f"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/linux64/chromedriver-linux64.zip"
-    elif system_platform == "Darwin":
-        machine = platform.machine()
-        if machine == "arm64":
-            chromedriver_url = f"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/mac-arm64/chromedriver-mac-arm64.zip"
-        else:
-            chromedriver_url = f"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/mac-x64/chromedriver-mac-x64.zip"
-    elif system_platform == "Windows":
-        architecture = platform.architecture()[0]
-        if architecture == "32bit":
-            chromedriver_url = f"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/win32/chromedriver-win32.zip"
-        elif architecture == "64bit":
-            chromedriver_url = f"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/win64/chromedriver-win64.zip"
-        else:
-            chromedriver_url = f"https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/win64/chromedriver-win64.zip"
-    else:
-        raise Exception(f"Unsupported platform: {system_platform}")
-
-    response = requests.get(chromedriver_url)
-    if response.status_code == 200:
-        chromedriver_content = response.content
-    else:
-        raise Exception(f"Failed to download ChromeDriver: {response.status_code}")
-
-    bucket = storage.bucket()
-    blob = bucket.blob('chromedriver')  
-    blob.upload_from_string(chromedriver_content)  
-
-    chromedriver_url = blob.public_url
-
-    return chromedriver_url
-
-
-app = Flask(__name__)
-CORS(app)
-
-def download_geckodriver():
-    geckodriver_version = "0.33.0"
-    system_platform = platform.system()
-
-    if system_platform == "Linux":
-        geckodriver_url = f"https://github.com/mozilla/geckodriver/releases/download/v{geckodriver_version}/geckodriver-v{geckodriver_version}-linux64.tar.gz"
-    elif system_platform == "Darwin":
-        geckodriver_url = f"https://github.com/mozilla/geckodriver/releases/download/v{geckodriver_version}/geckodriver-v{geckodriver_version}-macos.tar.gz"
-    elif system_platform == "Windows":
-        geckodriver_url = f"https://github.com/mozilla/geckodriver/releases/download/v{geckodriver_version}/geckodriver-v{geckodriver_version}-win64.zip"
-    else:
-        raise Exception(f"Unsupported platform: {system_platform}")
-
-    temp_dir = '/tmp/geckodriver'
-    os.makedirs(temp_dir, exist_ok=True)
-
-    geckodriver_path = os.path.join(temp_dir, "geckodriver")
-    if not os.path.exists(geckodriver_path):
-        response = requests.get(geckodriver_url)
-        if response.status_code == 200:
-            with open(os.path.join(temp_dir, "geckodriver.zip"), "wb") as f:
-                f.write(response.content)
-            if system_platform == "Windows":
-                import zipfile
-                with zipfile.ZipFile(os.path.join(temp_dir, "geckodriver.zip"), "r") as zip_ref:
-                    zip_ref.extractall(temp_dir)
-            else:
-                import tarfile
-                with tarfile.open(os.path.join(temp_dir, "geckodriver.tar.gz"), "r:gz") as tar_ref:
-                    tar_ref.extractall(temp_dir)
-            os.remove(os.path.join(temp_dir, "geckodriver.zip"))
-            os.chmod(geckodriver_path, 0o755)
-
-    return geckodriver_path
-
-def download_iedriver():
-    system_architecture = platform.architecture()[0]
-
-    if system_architecture == "32bit":
-        iedriver_url = f"https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.11.0/IEDriverServer_Win32_4.11.0.zip"
-    elif system_architecture == "64bit":
-        iedriver_url = f"https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.11.0/IEDriverServer_x64_4.11.0.zip"
-    else:
-        raise Exception(f"Unsupported system architecture: {system_architecture}")
-
-    temp_dir = '/tmp/iedriver'
-    os.makedirs(temp_dir, exist_ok=True)
-
-    iedriver_path = os.path.join(temp_dir, "IEDriverServer.exe")
-    if not os.path.exists(iedriver_path):
-        response = requests.get(iedriver_url)
-        if response.status_code == 200:
-            with open(os.path.join(temp_dir, "iedriver.zip"), "wb") as f:
-                f.write(response.content)
-            import zipfile
-            with zipfile.ZipFile(os.path.join(temp_dir, "iedriver.zip"), "r") as zip_ref:
-                zip_ref.extractall(temp_dir)
-            os.remove(os.path.join(temp_dir, "iedriver.zip"))
-
-    return iedriver_path
-
 
 def get_webdriver(browser_type):
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    drivers_directory = os.path.join(current_directory, 'drivers')
+
     if browser_type == 'chrome':
-        chromedriver_path = download_chromedriver()
-        service = ChromeService(executable_path=chromedriver_path)
+        chromedriver_path = os.path.join(drivers_directory, 'chromedriver-mac-arm64.zip')
         options = webdriver.ChromeOptions()
         options.add_argument('--headless')
-        return webdriver.Chrome(service=service, options=options)
+        return webdriver.Chrome(executable_path=chromedriver_path, options=options)
     elif browser_type == 'firefox':
-        geckodriver_path = download_geckodriver()
-        service = FirefoxService(executable_path=geckodriver_path)
+        geckodriver_path = os.path.join(drivers_directory, 'geckodriver')
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
-        return webdriver.Firefox(service=service, options=options)
-    elif browser_type == 'safari':
-        try:
-            driver = webdriver.Safari()
-        except SessionNotCreatedException:
-            return jsonify({'error': 'Safari WebDriver is not enabled.'})
+        return webdriver.Firefox(executable_path=geckodriver_path, options=options)
     elif browser_type == 'ie':
-        iedriver_path = download_iedriver()
+        iedriver_path = os.path.join(drivers_directory, 'iedriver')
         return webdriver.Ie(executable_path=iedriver_path)
     else:
         raise Exception(f"Unsupported browser type: {browser_type}")
