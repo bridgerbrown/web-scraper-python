@@ -3,19 +3,13 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
-import os
-
-os.environ['WDM_SSL_VERIFY'] = '0'
-os.environ['GH_TOKEN'] = "asdasdasdasd"
 
 app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+        return webdriver.Chrome()
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
@@ -80,5 +74,4 @@ def scrape():
             return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
-    app.debug = True
-    app.run(host='0.0.0.0', port=5000)
+    app.run()
