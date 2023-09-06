@@ -18,7 +18,7 @@ def get_webdriver(browser_type):
             chromedriver_path = './api/drivers/chromedriver-mac-arm64/chromedriver'
         else:
             chromedriver_path = './api/drivers/chromedriver-linux-x64/chromedriver'
-        return webdriver.Chrome(executable_path=chromedriver_path, options=options)
+        return webdriver.Chrome(executable_path=chromedriver_path, options=chrome_options)
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
