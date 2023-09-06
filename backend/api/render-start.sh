@@ -19,5 +19,7 @@ fi
 # Add Chrome's location to the PATH
 export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome"
 
+cd $HOME/backend/api
+
 # Now you can run your Python script that uses Chrome
 python ./scraper.py
