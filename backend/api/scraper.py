@@ -12,10 +12,10 @@ CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        options = webdriver.ChromeOptions()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
 
         if 'ARM' in os.uname().machine:
             chromedriver_path = './api/drivers/chromedriver-mac-arm64/chromedriver'
