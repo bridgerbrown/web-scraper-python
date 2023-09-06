@@ -11,15 +11,11 @@ if [[ ! -d $STORAGE_DIR/chrome ]]; then
   wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
   rm ./google-chrome-stable_current_amd64.deb
-  cd $HOME/project/src # Make sure we return to where we were
+  cd $HOME/backend/api 
 else
   echo "...Using Chrome from cache"
 fi
 
-# Add Chrome's location to the PATH
 export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome"
 
-cd $HOME/backend/api
-
-# Now you can run your Python script that uses Chrome
 python ./scraper.py
