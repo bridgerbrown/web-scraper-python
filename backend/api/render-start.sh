@@ -20,4 +20,4 @@ fi
 export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome"
 
 # Now you can run your Python script that uses Chrome
-python ./api/scraper.py
+python ./scraper.py
