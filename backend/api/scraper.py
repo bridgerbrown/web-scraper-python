@@ -4,8 +4,6 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 app = Flask(__name__)
 CORS(app)
@@ -16,15 +14,11 @@ def get_webdriver(browser_type):
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-dev-shm-usage')
-
         if 'ARM' in os.uname().machine:
             chromedriver_path = './api/drivers/chromedriver-mac-arm64/chromedriver'
         else:
             chromedriver_path = './api/drivers/chromedriver-linux-x64/chromedriver'
-
-        service = Service(executable_path=chromedriver_path)
-        capabilities = DesiredCapabilities.CHROME.copy()
-        return webdriver.Chrome(service=service, options=chrome_options, desired_capabilities=capabilities)
+        return webdriver.Chrome(executable_path=chromedriver_path, options=options)
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
