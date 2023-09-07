@@ -1,5 +1,6 @@
-echo "Current working directory after pip install: $(pwd)"
+#!/usr/bin/env bash
+set -o errexit
+
 export PATH="${PATH}:/opt/render/project/.render/chrome/opt/google/chrome"
-echo "Current working directory before running the script: $(pwd)"
-cd ./backend/api
-python ./scraper.py
+cd ./api  # Change this line to point to your API directory
+python scraper.py
