@@ -10,7 +10,25 @@ CORS(app)
 
 def get_webdriver(browser_type):
     if browser_type == 'chrome':
-        return webdriver.Chrome()
+        if os_name == 'linux':
+            chrome_driver_filename = 'chromedriver-linux'
+        elif os_name == 'darwin':
+            if platform.machine() == 'x86_64':
+                chrome_driver_filename = 'chromedriver-mac-x64'
+            elif platform.machine() == 'arm64':
+                chrome_driver_filename = 'chromedriver-mac-arm64'
+            else:
+                raise Exception("Unsupported macOS architecture")
+        elif os_name == 'windows':
+            if platform.architecture()[0] == '64bit':
+                chrome_driver_filename = 'chromedriver-win64.exe'
+            else:
+                chrome_driver_filename = 'chromedriver-win32.exe'
+        else:
+            raise Exception(f"Unsupported operating system: {os_name}")
+        
+        chrome_driver_path = f'/opt/render/project/.render/chrome/{chrome_driver_filename}'
+        return webdriver.Chrome(executable_path=chrome_driver_path)
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
