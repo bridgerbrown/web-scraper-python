@@ -9,6 +9,8 @@ app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
+    os_name = os.name
+
     if browser_type == 'chrome':
         if os_name == 'linux':
             chrome_driver_filename = 'chromedriver-linux'
