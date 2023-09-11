@@ -21,11 +21,11 @@ if [[ ! -d $STORAGE_DIR/chrome ]]; then
       hdiutil unmount /Volumes/Google\ Chrome
       rm chrome-mac-x64.zip 
     elif [[ "$(uname -m)" == "arm64" ]]; then
-      wget -P ./ https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/116.0.5845.96/mac-arm64/chrome-mac-arm64.zip
-      hdiutil mount -nobrowse chrome-mac-arm64.zip
+      wget -P ./ https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_mac_arm64.zip
+      hdiutil mount -nobrowse chromedriver_mac_arm64.zip
       cp -R /Volumes/Google\ Chrome/Google\ Chrome.app/Contents/MacOS/Google\ Chrome $STORAGE_DIR/chrome/
       hdiutil unmount /Volumes/Google\ Chrome
-      rm chrome-mac-arm64.zip
+      rm chromedriver_mac_arm64.zip
     else
       echo "Unsupported macOS architecture"
       exit 1
