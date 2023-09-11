@@ -9,19 +9,19 @@ app = Flask(__name__)
 CORS(app)
 
 def get_webdriver(browser_type):
-    os_name = os.name
+    os_name = platform.system()
 
     if browser_type == 'chrome':
-        if os_name == 'linux':
+        if os_name == 'Linux':
             chrome_driver_filename = 'chromedriver-linux'
-        elif os_name == 'darwin':
+        elif os_name == 'Darwin':
             if platform.machine() == 'x86_64':
                 chrome_driver_filename = 'chromedriver-mac-x64'
             elif platform.machine() == 'arm64':
                 chrome_driver_filename = 'chromedriver-mac-arm64'
             else:
                 raise Exception("Unsupported macOS architecture")
-        elif os_name == 'windows':
+        elif os_name == 'Windows':
             if platform.architecture()[0] == '64bit':
                 chrome_driver_filename = 'chromedriver-win64.exe'
             else:
