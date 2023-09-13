@@ -5,6 +5,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
 
 
 app = Flask(__name__)
@@ -14,9 +15,8 @@ def get_webdriver(browser_type):
     os_name = platform.system()
 
     if browser_type == 'chrome':
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.binary_location = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-        return webdriver.Chrome(options=chrome_options)
+
+        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
