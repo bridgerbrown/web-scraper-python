@@ -32,10 +32,8 @@ def get_webdriver(browser_type):
             raise Exception(f"Unsupported operating system: {os_name}")
         
         chrome_driver_path = f'/opt/render/project/.render/chrome/{chrome_driver_filename}'
-        chrome_options = ChromeOptions()
-        chrome_options.add_argument("--headless")
         chrome_service = ChromeService()
-        return webdriver.Chrome(service=chrome_service, options=chrome_options)
+        return webdriver.Chrome(service=chrome_service)
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
