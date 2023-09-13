@@ -5,7 +5,8 @@ import pandas as pd
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 app = Flask(__name__)
 CORS(app)
@@ -14,26 +15,7 @@ def get_webdriver(browser_type):
     os_name = platform.system()
 
     if browser_type == 'chrome':
-        if os_name == 'Linux':
-            chrome_driver_filename = 'chromedriver-linux'
-        elif os_name == 'Darwin':
-            if platform.machine() == 'x86_64':
-                chrome_driver_filename = ''
-            elif platform.machine() == 'arm64':
-                chrome_driver_filename = 'chromedriver-mac-arm64'
-            else:
-                raise Exception("Unsupported macOS architecture")
-        elif os_name == 'Windows':
-            if platform.architecture()[0] == '64bit':
-                chrome_driver_filename = 'chromedriver-win64.exe'
-            else:
-                chrome_driver_filename = 'chromedriver-win32.exe'
-        else:
-            raise Exception(f"Unsupported operating system: {os_name}")
-        
-        chrome_driver_path = f'/opt/render/project/.render/chrome/{chrome_driver_filename}'
-        chrome_service = ChromeService()
-        return webdriver.Chrome(service=chrome_service)
+        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     elif browser_type == 'firefox':
         options = webdriver.FirefoxOptions()
         options.add_argument('--headless')
