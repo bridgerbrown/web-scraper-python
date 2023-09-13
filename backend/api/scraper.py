@@ -20,7 +20,7 @@ def get_webdriver(browser_type):
             if platform.machine() == 'x86_64':
                 chrome_driver_filename = ''
             elif platform.machine() == 'arm64':
-                chrome_driver_filename = 'chromedriver_mac_arm64'
+                chrome_driver_filename = 'chromedriver-mac-arm64'
             else:
                 raise Exception("Unsupported macOS architecture")
         elif os_name == 'Windows':
