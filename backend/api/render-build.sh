@@ -13,9 +13,9 @@ if [[ ! -d $STORAGE_DIR/chrome ]]; then
   rm ./chrome-linux64.zip
   cd $HOME/backend 
   
-  wget -P ./ https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-  unzip -o ./chromedriver_linux64.zip -d $STORAGE_DIR/chrome/
-  rm chromedriver_linux64.zip
+  wget -P ./ https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.62/linux64/chromedriver-linux64.zip
+  unzip -o ./chromedriver-linux64.zip -d $STORAGE_DIR/chrome/
+  rm chromedriver-linux64.zip
 else
   echo "...Using Chrome from cache"
 fi

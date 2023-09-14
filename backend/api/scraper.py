@@ -14,7 +14,8 @@ def get_webdriver(browser_type):
     os_name = platform.system()
 
     if browser_type == 'chrome':
-        chrome_driver_path = '/opt/render/project/.render/chrome/chromedriver_linux64'
+        chrome_driver_path = '/opt/render/project/.render/chrome/chromedriver-linux64'
+        print(f"ChromeDriver path: {chrome_driver_path}")
         chrome_options = ChromeOptions()
         chrome_service = ChromeService(executable_path=chrome_driver_path)
         return webdriver.Chrome(service=chrome_service, options=chrome_options)
