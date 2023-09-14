@@ -9,7 +9,7 @@ if [[ ! -d $STORAGE_DIR/chrome ]]; then
   mkdir -p $STORAGE_DIR/chrome
   cd $STORAGE_DIR/chrome
   wget -P ./ https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.62/linux64/chrome-linux64.zip
-  dpkg -x ./chrome-linux64.zip $STORAGE_DIR/chrome
+  unzip -o ./chrome-linux64.zip -d $STORAGE_DIR/chrome
   rm ./chrome-linux64.zip
   cd $HOME/backend 
 else
