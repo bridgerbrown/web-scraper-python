@@ -14,7 +14,7 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_binary = 'chrome'
+            chrome_binary = 'google-chrome'
             chrome_command = [chrome_binary, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
 
             browser_type = request.json.get('browser')
@@ -71,5 +71,4 @@ def scrape():
             return jsonify({'error': str(e)})
 
 if __name__ == '__main__':
-    app.debug = True
     app.run(host='0.0.0.0', port=5000)

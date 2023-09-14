@@ -8,9 +8,10 @@ if [[ ! -d $STORAGE_DIR/chrome ]]; then
   echo "...Downloading Chrome"
   mkdir -p $STORAGE_DIR/chrome
   cd $STORAGE_DIR/chrome
-  wget -P ./ https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/117.0.5938.62/linux64/chrome-linux64.zip
-  unzip -o ./chrome-linux64.zip -d $STORAGE_DIR/chrome
-  rm ./chrome-linux64.zip
+  wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
+  ls -l /opt/render/web-scraper-python-server/.render/chrome/opt/google/chrome
+  rm ./google-chrome-stable_current_amd64.deb
   cd $HOME/backend 
 else
   echo "...Using Chrome from cache"
