@@ -3,32 +3,10 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from selenium.webdriver.chrome.options import Options as ChromeOptions
+import subprocess
 
 app = Flask(__name__)
 CORS(app)
-
-def get_webdriver(browser_type):
-    os_name = platform.system()
-
-    if browser_type == 'chrome':
-        chrome_driver_path = '/opt/render/project/.render/chrome/chromedriver-linux64'
-        print(f"ChromeDriver path: {chrome_driver_path}")
-        chrome_options = ChromeOptions()
-        chrome_service = ChromeService(executable_path=chrome_driver_path)
-        return webdriver.Chrome(service=chrome_service, options=chrome_options)
-    elif browser_type == 'firefox':
-        options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
-        return webdriver.Firefox(options=options)
-    elif browser_type == 'ie':
-        return webdriver.Ie()
-    elif browser_type == 'safari':
-        return webdriver.Safari()
-    else:
-        raise Exception(f"Unsupported browser type: {browser_type}")
 
 @app.route('/scrape', methods=['GET', 'POST'])
 def scrape():
@@ -36,51 +14,59 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
+            chrome_binary = '/opt/render/project/.render/chrome'
+            chrome_command = [chrome_binary, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
+
             browser_type = request.json.get('browser')
-            driver = get_webdriver(browser_type)
-            
-            url = request.json.get('url')
-            driver.get(url)
-
             element_types = request.json.get('element_types', [])
+            url = request.json.get('url')
 
-            heading_elements = []
-            p_elements = []
-            link_elements = []
-            meta_elements = []
-            scraped_elements = [heading_elements, p_elements, link_elements, meta_elements]
+            chrome_command.append(url)
 
-            content = driver.page_source
-            soup = BeautifulSoup(content, 'html.parser')
+            chrome_process = subprocess.Popen(chrome_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            chrome_output, chrome_error = chrome_process.communicate()
 
-            for element_type in element_types:
-                if element_type == 'heading':
-                    for level in range(1, 7):
-                        for heading in soup.findAll(f'h{level}'):
-                            heading_elements.append([
-                                f'h{level}',
-                                heading.get_text()
-                            ])
-                elif element_type == 'paragraph':
-                    for p in soup.findAll('p'):
-                        p_elements.append(p.get_text())
-                elif element_type == 'link':
-                    for link in soup.findAll('a'):
-                        link_elements.append([link.get_text(), link.get('href')])
-                    for link in soup.findAll('link'):
-                        link_elements.append([link.get('rel'), link.get('href')])
-                elif element_type == 'meta':
-                    for meta in soup.head.findAll('meta'):
-                        meta_elements.append(meta.attrs)
+            if chrome_process.returncode == 0:
+                content = chrome_output.decode('utf-8')
+                soup = BeautifulSoup(content, 'html.parser')
 
-            series = pd.Series(scraped_elements, name='scraped_elements')
-            df = pd.DataFrame({'scraped_elements': series})
-            scraped_data = df.to_dict(orient='records')
+                heading_elements = []
+                p_elements = []
+                link_elements = []
+                meta_elements = []
+                scraped_elements = [heading_elements, p_elements, link_elements, meta_elements]
 
-            return jsonify({
-                'message': 'Scraping successful',
-                'data': scraped_elements
-            })
+                for element_type in element_types:
+                    if element_type == 'heading':
+                        for level in range(1, 7):
+                            for heading in soup.findAll(f'h{level}'):
+                                heading_elements.append([
+                                    f'h{level}',
+                                    heading.get_text()
+                                ])
+                    elif element_type == 'paragraph':
+                        for p in soup.findAll('p'):
+                            p_elements.append(p.get_text())
+                    elif element_type == 'link':
+                        for link in soup.findAll('a'):
+                            link_elements.append([link.get_text(), link.get('href')])
+                        for link in soup.findAll('link'):
+                            link_elements.append([link.get('rel'), link.get('href')])
+                    elif element_type == 'meta':
+                        for meta in soup.head.findAll('meta'):
+                            meta_elements.append(meta.attrs)
+
+                series = pd.Series(scraped_elements, name='scraped_elements')
+                df = pd.DataFrame({'scraped_elements': series})
+                scraped_data = df.to_dict(orient='records')
+
+                return jsonify({
+                    'message': 'Scraping successful',
+                    'data': scraped_elements
+                })
+            else:
+                return jsonify({'error': chrome_error.decode('utf-8')})
+
         except Exception as e:
             return jsonify({'error': str(e)})
 
