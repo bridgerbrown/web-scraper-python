@@ -4,7 +4,7 @@ set -o errexit
 
 STORAGE_DIR=/opt/render/web-scraper-python-server/.render
 
-if [[ ! -d $STORAGE_DIR/chrome ]]; then
+# if [[ ! -d $STORAGE_DIR/chrome ]]; then
   echo "...Downloading Chrome"
   mkdir -p $STORAGE_DIR/chrome
   cd $STORAGE_DIR/chrome
@@ -13,8 +13,8 @@ if [[ ! -d $STORAGE_DIR/chrome ]]; then
   ls -l /opt/render/web-scraper-python-server/.render/chrome/opt/google/chrome
   rm ./google-chrome-stable_current_amd64.deb
   cd $HOME/backend 
-else
-  echo "...Using Chrome from cache"
-fi
+#else
+#  echo "...Using Chrome from cache"
+#fi
 
 pip install -r requirements.txt
