@@ -2,7 +2,7 @@
 # exit on error
 set -o errexit
 
-STORAGE_DIR=/opt/render/project/.render
+STORAGE_DIR=/opt/render/web-scraper-python-server/.render
 
 # if [[ ! -d $STORAGE_DIR/chrome ]]; then
   echo "...Downloading Chrome"
@@ -13,7 +13,9 @@ STORAGE_DIR=/opt/render/project/.render
   ls -l /opt/render/web-scraper-python-server/.render/chrome/opt/google/chrome
   rm ./google-chrome-stable_current_amd64.deb
   echo "Current working directory: $(pwd)"
-  cd $HOME/backend
+  cd $HOME/web-scraper-python-server
+  echo "Current working directory: $(pwd)"
+  cd backend
   echo "Current working directory: $(pwd)"
 #else
 #  echo "...Using Chrome from cache"
