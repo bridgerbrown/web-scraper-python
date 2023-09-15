@@ -14,7 +14,7 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_binary = 'google-chrome'
+            chrome_binary = 'chrome'
             chrome_command = [chrome_binary, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
 
             browser_type = request.json.get('browser')
