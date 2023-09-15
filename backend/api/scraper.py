@@ -9,8 +9,8 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-chrome_binary = '/opt/render/project/.render/chrome/google-chrome-stable_current_amd64/data/opt/google/chrome/chrome'
-
+STORAGE_DIR = '/opt/render/project/.render'
+chrome_binary = f'{STORAGE_DIR}/chrome/google-chrome-stable_current_amd64/data/opt/google/chrome/chrome'
 
 directories = chrome_binary.split('/')
 
