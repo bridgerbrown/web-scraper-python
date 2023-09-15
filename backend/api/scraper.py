@@ -4,11 +4,23 @@ from flask_cors import CORS
 import pandas as pd
 from bs4 import BeautifulSoup
 import subprocess
+import os
 
 app = Flask(__name__)
 CORS(app)
 
-chrome_binary = '/opt/render/project/.render/google-chrome-stable_current_amd64/data/opt/google/chrome/chrome'
+chrome_binary = '/opt/render/project/.render/chrome/google-chrome-stable_current_amd64/data/opt/google/chrome/chrome'
+
+
+directories = chrome_binary.split('/')
+
+current_directory = ''
+for directory in directories:
+    current_directory = os.path.join(current_directory, directory)
+    if os.path.exists(current_directory):
+        print(f"Directory '{current_directory}' exists.")
+    else:
+        print(f"Directory '{current_directory}' does not exist.")
 
 @app.route('/scrape', methods=['GET', 'POST'])
 def scrape():

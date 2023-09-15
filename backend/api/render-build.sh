@@ -12,7 +12,6 @@ STORAGE_DIR=/opt/render/project/.render
   cd $STORAGE_DIR/chrome
   wget -P ./ https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   dpkg -x ./google-chrome-stable_current_amd64.deb $STORAGE_DIR/chrome
-  ls -l /opt/render/project/.render/chrome/opt/google/chrome
   rm ./google-chrome-stable_current_amd64.deb
   echo "Current working directory: $(pwd)"
   cd $HOME/project/src/backend
