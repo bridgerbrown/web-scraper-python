@@ -14,7 +14,7 @@ STORAGE_DIR=/opt/render/web-scraper-python-server/.render
   rm ./google-chrome-stable_current_amd64.deb
   echo "Current working directory: $(pwd)"
   cd $HOME/web-scraper-python-server
-  ls
+  echo "Contents of current directory: $(echo *)"
   echo "Changed directory: $(pwd)"
 #else
 #  echo "...Using Chrome from cache"
