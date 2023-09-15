@@ -15,8 +15,6 @@ STORAGE_DIR=/opt/render/web-scraper-python-server/.render
   echo "Current working directory: $(pwd)"
   cd $HOME/web-scraper-python-server
   echo "Current working directory: $(pwd)"
-  cd backend
-  echo "Current working directory: $(pwd)"
 #else
 #  echo "...Using Chrome from cache"
 #fi
