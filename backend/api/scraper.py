@@ -8,13 +8,14 @@ import subprocess
 app = Flask(__name__)
 CORS(app)
 
+chrome_binary = '/opt/render/project/.render/google-chrome-stable_current_amd64/data/opt/google/chrome/chrome'
+
 @app.route('/scrape', methods=['GET', 'POST'])
 def scrape():
     if request.method == 'GET':
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_binary = 'chrome'
             chrome_command = [chrome_binary, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
 
             browser_type = request.json.get('browser')
