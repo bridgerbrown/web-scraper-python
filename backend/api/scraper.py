@@ -9,9 +9,10 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-STORAGE_DIR = '/opt/render/project/.render'
-chrome_binary = f'{STORAGE_DIR}/chrome/data/opt/google/chrome/chrome'
-directories = chrome_binary.split('/')
+RELATIVE_STORAGE_DIR = './opt/render/project/.render'
+RELATIVE_CHROME_BINARY = './opt/render/project/.render/chrome/data/opt/google/chrome/chrome'
+
+directories = [RELATIVE_STORAGE_DIR, RELATIVE_CHROME_BINARY]
 
 current_directory = ''
 for directory in directories:
@@ -27,7 +28,7 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_command = [chrome_binary, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
+            chrome_command = [RELATIVE_CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
 
             browser_type = request.json.get('browser')
             element_types = request.json.get('element_types', [])
