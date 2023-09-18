@@ -9,10 +9,12 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-RELATIVE_STORAGE_DIR = './opt/render/project/.render'
-RELATIVE_CHROME_BINARY = './opt/render/project/.render/chrome/data/opt/google/chrome/chrome'
-directories = [RELATIVE_STORAGE_DIR, RELATIVE_CHROME_BINARY]
+BASE_DIR = '/opt/render/project/.render'
+STORAGE_DIR = os.path.join(BASE_DIR, 'chrome')
+CHROME_BINARY = os.path.join(STORAGE_DIR, 'data/opt/google/chrome/chrome')
 current_directory = ''
+
+directories = [BASE_DIR, STORAGE_DIR, CHROME_BINARY]
 for directory in directories:
     current_directory = os.path.join(current_directory, directory)
     if os.path.exists(current_directory):
