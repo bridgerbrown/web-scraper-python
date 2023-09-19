@@ -22,13 +22,18 @@ for directory in directories:
     else:
         print(f"Directory '{current_directory}' does not exist.")
 
+if os.path.exists(CHROME_BINARY):
+    print(f"Chrome binary '{CHROME_BINARY}' exists.")
+else:
+    print(f"Chrome binary '{CHROME_BINARY}' does not exist.")
+
 @app.route('/scrape', methods=['GET', 'POST'])
 def scrape():
     if request.method == 'GET':
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_command = [RELATIVE_CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
+            chrome_command = [CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
 
             browser_type = request.json.get('browser')
             element_types = request.json.get('element_types', [])
