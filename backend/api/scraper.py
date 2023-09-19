@@ -34,6 +34,7 @@ def scrape():
     elif request.method == 'POST':
         try:
             chrome_command = [CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
+            print("Chrome Command:", chrome_command)
 
             browser_type = request.json.get('browser')
             element_types = request.json.get('element_types', [])
@@ -43,6 +44,9 @@ def scrape():
 
             chrome_process = subprocess.Popen(chrome_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             chrome_output, chrome_error = chrome_process.communicate()
+
+            print("Chrome Output:", chrome_output)
+            print("Chrome Error:", chrome_error)
 
             if chrome_process.returncode == 0:
                 content = chrome_output.decode('utf-8')
@@ -73,6 +77,9 @@ def scrape():
                     elif element_type == 'meta':
                         for meta in soup.head.findAll('meta'):
                             meta_elements.append(meta.attrs)
+
+                print("Scraped Data:")
+                print(scraped_elements)
 
                 series = pd.Series(scraped_elements, name='scraped_elements')
                 df = pd.DataFrame({'scraped_elements': series})
