@@ -11,7 +11,7 @@ CORS(app)
 
 BASE_DIR = '/opt/render/project/.render'
 STORAGE_DIR = os.path.join(BASE_DIR, 'chrome')
-CHROME_BINARY = os.path.join(STORAGE_DIR, 'data/opt/google/chrome/chrome')
+CHROME_BINARY = os.path.join(STORAGE_DIR, '/opt/google/chrome/chrome')
 current_directory = ''
 
 directories = [BASE_DIR, STORAGE_DIR, CHROME_BINARY]

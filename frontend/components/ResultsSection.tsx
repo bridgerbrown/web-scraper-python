@@ -5,7 +5,7 @@ export default function ResultsSection(props: any){
         handleRedo, headingData, paragraphData, linkData, metaData } = props;
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="flex flex-col justify-center items-center pt-8">
       <h1 className="md:text-3xl text-2xl font-semibold mb-2">
         Results
       </h1>
