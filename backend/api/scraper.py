@@ -36,7 +36,6 @@ def scrape():
             chrome_command = [CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
             print("Chrome Command:", chrome_command)
 
-            browser_type = request.json.get('browser')
             element_types = request.json.get('element_types', [])
             url = request.json.get('url')
 

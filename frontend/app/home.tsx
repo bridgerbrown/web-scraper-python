@@ -15,10 +15,8 @@ export default function Home() {
 
   const [url, setUrl] = useState<string>("");
   const [selectedElements, setSelectedElements] = useState<string[]>([]);
-  const [browser, setBrowser] = useState<string>("");
   const [urlError, setUrlError] = useState<boolean>(false);
   const [elementsError, setElementsError] = useState<boolean>(false);
-  const [browserError, setBrowserError] = useState<boolean>(false);
   const [status, setStatus] = useState<string>("");
   const [scrapedData, setScrapedData] = useState<any>();
   const [submitted, setSubmitted] = useState<boolean>(false);
@@ -48,12 +46,6 @@ export default function Home() {
     }
   };
 
-  const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
-    setBrowser(value);
-    setBrowserError(false);
-  };
-
   const handleSubmit = async (event: FormEvent) => {
     setLoading(true);
     setLoadingTime(performance.now());
@@ -61,7 +53,6 @@ export default function Home() {
     event.preventDefault();
     if (!url) setUrlError(true);
     if (!selectedElements.length) setElementsError(true);
-    if (!browser) setBrowserError(true);
     if (!url || !selectedElements.length) return;
     await handleScraper();
     setLoading(false);
@@ -79,7 +70,6 @@ export default function Home() {
     setMetaData([]);
     setUrlError(false);
     setElementsError(false);
-    setBrowserError(false);
     setStatus("");
     setLoadingTime(0);
   };
@@ -88,8 +78,7 @@ export default function Home() {
     try {
       const requestData = {
         url: url,
-        element_types: selectedElements,
-        browser: browser
+        element_types: selectedElements
       };
       const res = await axios.post('https://web-scraper-python-server.onrender.com/scrape', requestData);
       setLoading(false);
@@ -145,8 +134,6 @@ export default function Home() {
               setUrl={setUrl}
               handleCheckboxChange={handleCheckboxChange}
               elementsError={elementsError}
-              browserError={browserError}
-              handleRadioChange={handleRadioChange}
               handleSubmit={handleSubmit}
             />
           }

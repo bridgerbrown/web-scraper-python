@@ -1,8 +1,5 @@
-import Image from "next/image";
-
 export default function StartSection(props: any) {
-  const {url, urlError, handleUrlChange, setUrl, handleCheckboxChange, elementsError, browserError, 
-        handleRadioChange, handleSubmit} = props;
+  const {url, urlError, handleUrlChange, setUrl, handleCheckboxChange, elementsError, handleSubmit} = props;
   const titleCSS: string = `md:text-lg sm:text-base text-sm font-semibold ml-3`;
   const stepCSS: string = `mb-5 flex justify-center items-center`;
   const stepCircleCSS: string = `sm:w-7 sm:h-7 w-5 h-5 rounded-full text-white bg-teal-700 flex justify-center items-center`;
@@ -10,7 +7,6 @@ export default function StartSection(props: any) {
   const presetButtonCSS: string = `sm:px-5 px-3 py-2 sm:text-sm text-xs bg-teal-300 hover:bg-teal-200 transition-colors rounded-sm mx-2`;
   const labelCSS: string = `ml-2 md:my-0 my-2 md:mr-4 md:text-base text-sm cursor-pointer hover:opacity-50 transition-opacity`;
   const checkboxCSS: string = `md:my-0 my-2 cursor-pointer ml-3`;
-  const radioCSS: string = `cursor-pointer ml-3`;
 
   return (
     <div className="flex flex-col justify-center items-center">
