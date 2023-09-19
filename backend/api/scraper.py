@@ -5,6 +5,7 @@ import pandas as pd
 from bs4 import BeautifulSoup
 import subprocess
 import os
+import logging
 
 app = Flask(__name__)
 CORS(app)
@@ -27,6 +28,13 @@ if os.path.exists(CHROME_BINARY):
 else:
     print(f"Chrome binary '{CHROME_BINARY}' does not exist.")
 
+formatter = logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+
+app.logger.setLevel(logging.DEBUG)
+
 @app.route('/scrape', methods=['GET', 'POST'])
 def scrape():
     if request.method == 'GET':
@@ -34,7 +42,7 @@ def scrape():
     elif request.method == 'POST':
         try:
             chrome_command = [CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
-            print("Chrome Command:", chrome_command)
+            app.logger.info("Chrome Command:", chrome_command)
 
             element_types = request.json.get('element_types', [])
             url = request.json.get('url')
@@ -43,8 +51,8 @@ def scrape():
             chrome_process = subprocess.Popen(chrome_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             chrome_output, chrome_error = chrome_process.communicate()
 
-            print("Chrome Output:", chrome_output)
-            print("Chrome Error:", chrome_error)
+            app.logger.info("Chrome Output:", chrome_output)
+            app.logger.info("Chrome Error:", chrome_error)
 
             if chrome_process.returncode == 0:
                 content = chrome_output.decode('utf-8')
@@ -88,6 +96,7 @@ def scrape():
                     'data': scraped_elements
                 })
             else:
+                app.logger.error(str(chrome_error))
                 return jsonify({'error': chrome_error.decode('utf-8')})
 
         except Exception as e:
