@@ -1,11 +1,7 @@
-import platform
+import platform, pandas as pd, subprocess, os, logging, sys
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import pandas as pd
 from bs4 import BeautifulSoup
-import subprocess
-import os
-import logging
 
 app = Flask(__name__)
 CORS(app)
