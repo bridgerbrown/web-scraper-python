@@ -40,7 +40,6 @@ def scrape():
             url = request.json.get('url')
 
             chrome_command.append(url)
-
             chrome_process = subprocess.Popen(chrome_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             chrome_output, chrome_error = chrome_process.communicate()
 

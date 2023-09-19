@@ -81,6 +81,8 @@ export default function Home() {
         element_types: selectedElements
       };
       const res = await axios.post('https://web-scraper-python-server.onrender.com/scrape', requestData);
+      console.log(res);
+      console.log(res.data.error ? res.data.error : res.data.message);
       setLoading(false);
       setLoadingTime((prev) => performance.now() - prev);
       setStatus(res.data.error ? res.data.error : res.data.message);
