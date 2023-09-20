@@ -1,28 +1,17 @@
-import platform, pandas as pd, subprocess, os, logging, sys
+import pandas as pd
+import os
+import logging
+import sys
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from bs4 import BeautifulSoup
+import requests
 
 app = Flask(__name__)
 CORS(app)
 
-BASE_DIR = '/opt/render/project/.render'
-STORAGE_DIR = os.path.join(BASE_DIR, 'chrome')
-CHROME_BINARY = os.path.join(STORAGE_DIR, 'opt/google/chrome/chrome')
-current_directory = ''
-
-directories = [BASE_DIR, STORAGE_DIR, CHROME_BINARY]
-for directory in directories:
-    current_directory = os.path.join(current_directory, directory)
-    if os.path.exists(current_directory):
-        print(f"Directory '{current_directory}' exists.")
-    else:
-        print(f"Directory '{current_directory}' does not exist.")
-
-if os.path.exists(CHROME_BINARY):
-    print(f"Chrome binary '{CHROME_BINARY}' exists.")
-else:
-    print(f"Chrome binary '{CHROME_BINARY}' does not exist.")
+# No need to check for directories and Chrome binary
+# Remove CHROME_BINARY and related code
 
 formatter = logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
 handler = logging.StreamHandler(sys.stdout)
@@ -37,23 +26,15 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_command = [CHROME_BINARY, '--headless']
-            app.logger.info("Chrome Command: %s", chrome_command)
-
-            element_types = request.json.get('element_types', [])
+            # Fetch the URL directly using Requests
             url = request.json.get('url')
+            response = requests.get(url)
 
-            chrome_command.append(url)
-            chrome_process = subprocess.Popen(chrome_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-            chrome_output, chrome_error = chrome_process.communicate()
-
-            app.logger.info("Chrome Output: %s", chrome_output)
-            app.logger.info("Chrome Error: %s", chrome_error)
-
-            if chrome_process.returncode == 0:
-                content = chrome_output.decode('utf-8')
+            if response.status_code == 200:
+                content = response.text
                 soup = BeautifulSoup(content, 'html.parser')
 
+                element_types = request.json.get('element_types', [])
                 heading_elements = []
                 p_elements = []
                 link_elements = []
@@ -92,8 +73,8 @@ def scrape():
                     'data': scraped_elements
                 })
             else:
-                app.logger.error(str(chrome_error))
-                return jsonify({'error': chrome_error.decode('utf-8')})
+                app.logger.error('Failed to retrieve the web page.')
+                return jsonify({'error': 'Failed to retrieve the web page.'})
 
         except Exception as e:
             return jsonify({'error': str(e)})
