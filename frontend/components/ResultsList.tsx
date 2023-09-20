@@ -4,7 +4,7 @@ export default function ResultsList(props: any) {
   const { data, type } = props;
   const dataSectionCSS: string = `md:w-full md:max-w-2xl w-9/12 mb-12`;
   const dataHeadingCSS: string = `mb-1 md:text-xl text-lg font-semibold`;
-  const dataResultsCSS: string = `flex flex-col space-y-5 justify-center items-start`;
+  const dataResultsCSS: string = `flex flex-col space-y-5 justify-center items-center`;
 
   return (
     <div className="w-screen flex justify-center items-center">

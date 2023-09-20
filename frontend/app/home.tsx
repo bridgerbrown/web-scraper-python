@@ -8,9 +8,9 @@ import Loading from "@/components/Loading";
 import axios from "axios";
 
 export default function Home() {
-  const startSectionCSS: string = `bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[825px] border border-gray-400 
+  const startSectionCSS: string = `bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[850px] border border-gray-400 
     rounded-md mt-12 justify-center items-center flex flex-col`;
-  const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[825px] border border-gray-400 
+  const resultsSectionCSS: string = `pt-14 bg-white drop-shadow-xl md:w-[750px] w-11/12 min-h-[850px] border border-gray-400 
     rounded-md mt-12 justify-start items-center flex flex-col`;
 
   const [url, setUrl] = useState<string>("");

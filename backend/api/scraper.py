@@ -10,14 +10,10 @@ import requests
 app = Flask(__name__)
 CORS(app)
 
-# No need to check for directories and Chrome binary
-# Remove CHROME_BINARY and related code
-
 formatter = logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
 handler = logging.StreamHandler(sys.stdout)
 handler.setFormatter(formatter)
 app.logger.addHandler(handler)
-
 app.logger.setLevel(logging.DEBUG)
 
 @app.route('/scrape', methods=['GET', 'POST'])
@@ -26,7 +22,6 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            # Fetch the URL directly using Requests
             url = request.json.get('url')
             response = requests.get(url)
 

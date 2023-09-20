@@ -26,12 +26,13 @@ export default function About() {
           </h1>
           <p className={pCSS}>
             The main functionality of the web scraper comes from the back-end code, which was built using Python, the 
-            Flask framework to create the web server that listens to the front-end, and the BeautifulSoup 
-            library for parsing the HTML content. In order for websites to be emulated and scraped,
-            the platform needs to use 'web drivers', specialized software intermediaries for 
-            controlling web browsers programatically, with a different driver for each web browser type and
-            operating system (these are downloaded on build for efficiency).            
-            Finally, the front-end user interface was built using React, TypeScript, NextJS, and TailwindCSS.
+            Flask framework, BeautifulSoup, Requests, and Pandas. When a user provides a website url and the content to
+            retrieve, the Flask backend server, which listens to the front-end, initiates a request to the website and
+            utilizes BeautifulSoup to parse the HTML data. After processing the data with Pandas, it is transmitted
+            in a parsed JSON format to the front-end to then be displayed.
+            <br/>
+            <br/>
+            The front-end user interface was built using React, TypeScript, NextJS, and TailwindCSS.
           </p>
         </div>
         <div className={sectionCSS}>
