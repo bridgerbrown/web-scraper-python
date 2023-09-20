@@ -37,7 +37,7 @@ def scrape():
         return "This is a GET request."
     elif request.method == 'POST':
         try:
-            chrome_command = ['dbus-launch', CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
+            chrome_command = [CHROME_BINARY, '--headless']
             app.logger.info("Chrome Command: %s", chrome_command)
 
             element_types = request.json.get('element_types', [])
