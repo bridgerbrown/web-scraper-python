@@ -38,7 +38,7 @@ def scrape():
     elif request.method == 'POST':
         try:
             chrome_command = [CHROME_BINARY, '--headless', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox']
-            app.logger.info("Chrome Command:", chrome_command)
+            app.logger.info("Chrome Command: %s", chrome_command)
 
             element_types = request.json.get('element_types', [])
             url = request.json.get('url')
@@ -47,8 +47,8 @@ def scrape():
             chrome_process = subprocess.Popen(chrome_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             chrome_output, chrome_error = chrome_process.communicate()
 
-            app.logger.info("Chrome Output:", chrome_output)
-            app.logger.info("Chrome Error:", chrome_error)
+            app.logger.info("Chrome Output: %s", chrome_output)
+            app.logger.info("Chrome Error: %s", chrome_error)
 
             if chrome_process.returncode == 0:
                 content = chrome_output.decode('utf-8')
