@@ -127,6 +127,7 @@ export default function Home() {
                 paragraphData={paragraphData}
                 linkData={linkData}
                 metaData={metaData}
+                url={url}
               />
             :
             <StartSection

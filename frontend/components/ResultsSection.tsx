@@ -2,7 +2,7 @@ import ResultsList from "./ResultsList";
 
 export default function ResultsSection(props: any){
   const {status, scrapedData, scrapedDataLength, loadingTime, selectedElements,
-        handleRedo, headingData, paragraphData, linkData, metaData } = props;
+        handleRedo, headingData, paragraphData, linkData, metaData, url} = props;
 
   return (
     <div className="flex flex-col justify-center items-center pt-8">
@@ -14,7 +14,7 @@ export default function ResultsSection(props: any){
           <h1 className="text-green-500 mb-1">
           Scraping successful!
           </h1>
-          <p className="text-sm text-gray-500 mb-8">
+          <p className="text-sm text-gray-500 mb-2">
             {scrapedDataLength} items scraped in {loadingTime ? (loadingTime / 1000).toFixed(2) : "unknown"} seconds 
           </p>
         </span>
@@ -26,9 +26,12 @@ export default function ResultsSection(props: any){
           <h2 className="text-center text-red-500 mb-4">
             {status}
           </h2>
-          <p className="mb-6 text-sm">Make sure you entered a valid URL and the correct browser.</p>
+          <p className="mb-2 text-sm">Make sure you entered a valid URL.</p>
         </span>
       }
+      <p className="font-semibold text-sm mb-8">
+        "{url}"
+      </p>
       <section className="w-full text-center flex justify-center items-center mb-4">
         {
           scrapedData ? 
